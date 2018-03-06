@@ -8,3 +8,4 @@ This bot is still in development and it don't have many features yet.
 ## Features
 - Cetus/Plains of Eidolon and Earth missions Time
 - Find Weapons that need to be used for crafting others
+- Current sortie status
