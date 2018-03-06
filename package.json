@@ -1,0 +1,15 @@
+{
+  "name": "ordis-prime",
+  "version": "1.0.0",
+  "description": "a warframe help cephalon, for telegram",
+  "main": "ordis.js",
+  "scripts": {
+    "start": "node ordis.js"
+  },
+  "author": "Max Sylver",
+  "license": "ISC",
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "telebot": "^1.2.3"
+  }
+}
