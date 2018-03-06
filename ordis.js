@@ -15,6 +15,7 @@ bot.on(['/start'], (data) =>
 bot.on('text', function(data){
 
     let lowerData = data.text.toLowerCase();
+    console.log(lowerData);
 
     //simple 'Hello' answer
     if(lowerData === 'hello'){
