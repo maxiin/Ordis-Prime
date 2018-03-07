@@ -4,8 +4,8 @@ const configs = require('./config');
 const bot = new TeleBot(configs().telegramKey);
 
 //including the other file to controll the commands
-var iscomponent = require('./iscomponent');
-var api = require('./api');
+var iscomponent = require('./commands/iscomponent');
+var api = require('./commands/api');
 
 //this will be called everytime the user send '/start'
 bot.on(['/start'], (data) => 

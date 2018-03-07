@@ -1,10 +1,11 @@
 //url for the warframe api and the requirements for this archive
 var url = 'https://ws.warframestat.us/pc';
 var http = require('https');
-let ordis = require('./ordis');
+let ordis = require('../ordis');
 var finalStr;
 var eCycle;
 var cCycle;
+var levels = [" Level 50-60"," Level 65-80", " Level 80-100"]
 
 module.exports = {
 
@@ -64,9 +65,12 @@ module.exports = {
             var response = JSON.parse(body);
 
             let finalStr = "Time left: " + response.sortie.eta + "\n" + "Defeat " + response.sortie.boss + "'s Forces" + "\n";
-            finalStr += "-----" + "\n" + response.sortie.variants[0].node + " Level 50-60" + "\n" + response.sortie.variants[0].missionType + "\n" + response.sortie.variants[0].modifier + "\n";
-            finalStr += "-----" + "\n" + response.sortie.variants[1].node + " Level 65-80" + "\n" + response.sortie.variants[1].missionType + "\n" + response.sortie.variants[1].modifier + "\n";
-            finalStr += "-----" + "\n" + response.sortie.variants[2].node + " Level 80-100" + "\n" + response.sortie.variants[2].missionType + "\n" + response.sortie.variants[2].modifier;
+            for(let index = 0; index < 3; index++){
+                finalStr += "-----" + "\n" 
+                    + response.sortie.variants[index].node + levels[index] + "\n" 
+                    + response.sortie.variants[index].missionType + "\n" 
+                    + response.sortie.variants[index].modifier + "\n";
+            }
 
             data.reply.text(finalStr);
 
