@@ -73,14 +73,6 @@ module.exports = {
                     + response.variants[index].modifier + "\n";
             }
 
-            // let finalStr = "Time left: " + response.sortie.eta + "\n" + "Defeat " + response.sortie.boss + "'s Forces" + "\n";
-            // for(let index = 0; index < 3; index++){
-            //     finalStr += "-----" + "\n" 
-            //         + response.sortie.variants[index].node + levels[index] + "\n" 
-            //         + response.sortie.variants[index].missionType + "\n" 
-            //         + response.sortie.variants[index].modifier + "\n";
-            // }
-
             data.reply.text(finalStr);
 
             });
