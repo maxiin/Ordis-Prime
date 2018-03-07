@@ -37,7 +37,7 @@ bot.on('text', function(data){
         bot.sendMessage(data.chat.id, iscomponent.test(toFunc), {parseMode: "Markdown", webPreview: false });
     }
 
-    if(data.text === '/time' || lowerData === 'earth time' || lowerData === 'cetus time' || lowerData === 'cetus' || lowerData === 'earth' || data.text === '/time@ordis_prime_bot'){
+    if(data.text === '/time' || lowerData === 'time' || lowerData === 'cetus' || lowerData === 'earth' || data.text === '/time@ordis_prime_bot'){
    		api.getTime(data);
     }
 
