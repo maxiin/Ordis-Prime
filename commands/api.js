@@ -63,14 +63,23 @@ module.exports = {
 
         res.on('end', function(){
             var response = JSON.parse(body);
+            response = response.sortie;
 
-            let finalStr = "Time left: " + response.sortie.eta + "\n" + "Defeat " + response.sortie.boss + "'s Forces" + "\n";
+            let finalStr = "Time left: " + response.eta + "\n" + "Defeat " + response.boss + "'s Forces" + "\n";
             for(let index = 0; index < 3; index++){
                 finalStr += "-----" + "\n" 
-                    + response.sortie.variants[index].node + levels[index] + "\n" 
-                    + response.sortie.variants[index].missionType + "\n" 
-                    + response.sortie.variants[index].modifier + "\n";
+                    + response.variants[index].node + levels[index] + "\n" 
+                    + response.variants[index].missionType + "\n" 
+                    + response.variants[index].modifier + "\n";
             }
+
+            // let finalStr = "Time left: " + response.sortie.eta + "\n" + "Defeat " + response.sortie.boss + "'s Forces" + "\n";
+            // for(let index = 0; index < 3; index++){
+            //     finalStr += "-----" + "\n" 
+            //         + response.sortie.variants[index].node + levels[index] + "\n" 
+            //         + response.sortie.variants[index].missionType + "\n" 
+            //         + response.sortie.variants[index].modifier + "\n";
+            // }
 
             data.reply.text(finalStr);
 
