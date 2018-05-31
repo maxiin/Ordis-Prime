@@ -42,7 +42,7 @@ module.exports = {
 
         	data.reply.text(finalStr);
 
-    		});
+    	});
 
         //log an error
 		}).on('error', function(e){
@@ -75,9 +75,47 @@ module.exports = {
 
             data.reply.text(finalStr);
 
-            });
+        });
 
         //log an error
+        }).on('error', function(e){
+            console.log("Got an error: ", e);
+        })
+
+    },
+
+    getNews: function(callback){
+        http.get(url, function(res){
+            var body = '';
+
+        //receiving data
+        res.on('data', function(chunk){
+            body += chunk;
+        });
+
+        res.on('end', function(){
+            var response = JSON.parse(body);
+            response = response.news;
+            var finalStr = "";
+            var len = response.length;
+            var margin = 0
+            if(len >=6){
+                margin = 6
+            }
+
+            console.log(response[0]);
+
+            for(let i = len-1; i > len-margin; i--){
+                finalStr += response[i].eta + "\n" +
+                    "[" + response[i].message + "]" +
+                    "(" + response[i].link + ")" + "\n" +
+                    "-----" + "\n";
+            }            
+
+            callback(finalStr);
+
+        });
+
         }).on('error', function(e){
             console.log("Got an error: ", e);
         })

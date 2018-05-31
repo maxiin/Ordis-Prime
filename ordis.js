@@ -17,14 +17,8 @@ bot.on('text', function(data){
     let lowerData = data.text.toLowerCase();
     console.log(lowerData);
 
-    //simple 'Hello' answer
-    if(lowerData === 'hello'){
-        //simpler msg sending
-        data.reply.text('Hello, operator ' + data.chat.first_name + '!\nWhat are you thinking about?');
-    }
-
     //handle /help command
-    if(lowerData === 'help' || data.text === '/help'){
+    if(data.text === '/help'){
         bot.sendMessage(data.chat.id, 'Here\'s the list of my commands\n/iscomp - Check if a certain weapon is crafting component for another one, Usage - */iscomp \'weapon name\'*\n/time - Get Cetus and Earth current time', {parseMode: "Markdown"});
     }
 
@@ -37,13 +31,20 @@ bot.on('text', function(data){
         bot.sendMessage(data.chat.id, iscomponent.test(toFunc), {parseMode: "Markdown", webPreview: false });
     }
 
-    if(data.text === '/time' || lowerData === 'time' || lowerData === 'cetus' || lowerData === 'earth' || data.text === '/time@ordis_prime_bot'){
+    if(data.text === '/time'){
    		api.getTime(data);
     }
 
-    if(data.text === '/sortie' || data.text === 'sortie'){
+    if(data.text === '/sortie'){
         api.getSortie(data);
     }
+
+    if(data.text === '/news'){
+        api.getNews(function(m){
+            bot.sendMessage(data.chat.id, m, {parseMode: "Markdown", webPreview: false });
+        });
+    }
+
 })
 
 //by the docs i saw that this needs to be in the bottom? still confused about it, supossedly it starts the bot itself
