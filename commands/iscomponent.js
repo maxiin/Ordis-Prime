@@ -45,7 +45,7 @@ module.exports = {
 	       		return '[Lato](http://warframe.wikia.com/wiki/Lato) is crafting component for the [Bolto](http://warframe.wikia.com/wiki/Bolto)' ;
 	       		break;
 	       	case 'bolto':
-	       		return '2x [Bolto](http://warframe.wikia.com/wiki/Bolto) are crafting components for the [Akbolto](http://warframe.wikia.com/wiki/Akbolto)' ;
+	       		return '2x [Bolto](http://warframe.wikia.com/wiki/Bolto) are crafting components for the [Akbolto](http://warframe.wikia.com/wiki/Akbolto)\nAnd 1x [Bolto](http://warframe.wikia.com/wiki/Bolto) + [Viper](http://warframe.wikia.com/wiki/Viper) are crafting components for the [Hystrix](http://warframe.wikia.com/wiki/Hystrix)' ;
 	       		break;
 	       	case 'akbolto':
 	       		return '[Akbolto](http://warframe.wikia.com/wiki/Akbolto) + [Dual Skana](http://warframe.wikia.com/wiki/Dual_Skana) are crafting components for the [Akjagara](http://warframe.wikia.com/wiki/Akjagara)' ;
@@ -90,7 +90,7 @@ module.exports = {
 	       		return '2x [Vasto](http://warframe.wikia.com/wiki/Vasto) are crafting components for the [Akvasto](http://warframe.wikia.com/wiki/Akvasto)\nAnd 1x [Vasto](http://warframe.wikia.com/wiki/Vasto) + [Dual Skana](http://warframe.wikia.com/wiki/Dual_Skana) for crafting the [Redeemer](http://warframe.wikia.com/wiki/Redeemer)';
 	       		break;
 	       	case 'viper':
-	       		return '2x [Viper](http://warframe.wikia.com/wiki/Viper) are crafting components for the [Twin Vipers](http://warframe.wikia.com/wiki/Twin_Vipers)';
+	       		return '2x [Viper](http://warframe.wikia.com/wiki/Viper) are crafting components for the [Twin Vipers](http://warframe.wikia.com/wiki/Twin_Vipers)\nAnd 1x [Viper](http://warframe.wikia.com/wiki/Viper) + [Bolto](http://warframe.wikia.com/wiki/Bolto) are crafting components for the [Hystrix](http://warframe.wikia.com/wiki/Hystrix)';
 	       		break;
 	       	case 'atomos':
 	       		return '[Atomos](http://warframe.wikia.com/wiki/Atomos) + [Dual Zoren](http://warframe.wikia.com/wiki/Dual_Zoren) are crafting components for the [Twin Bazok](http://warframe.wikia.com/wiki/Twin_Basolk)';
@@ -142,12 +142,12 @@ module.exports = {
 	       		break;
 	    	case 'ninkondi':
 	       		return '[Ninkondi](http://warframe.wikia.com/wiki/Ninkondi) is crafting component for the [Shaku](http://warframe.wikia.com/wiki/Shaku)';
-	       		break;
+				break;
 	    	case 'argon crystal':
 	       		return 'sadly argon crystals are not weapons';
 	       		break;
 	    	default:
-	       		return 'Ordis didn\'t find anything, operator, probably your weapon is not used for any crafting, but I may require maintenance after all.';	
+	       		return 'Ordis didn\'t find anything, operator, **probably your weapon is not used for any crafting**, updated on 1/Jun/2018';	
 		} 
 
 	}
