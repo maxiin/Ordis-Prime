@@ -11,3 +11,9 @@ This bot is still in development and it don't have many features yet.
 - Cetus/Plains of Eidolon and Earth missions Time
 - Find Weapons that need to be used for crafting others
 - Current sortie status
+
+## Commands
+- iscomp - If weapons used to make other
+- time - Show Cetus and Earth current time
+- sortie - Get current sortie mission detail
+- news - The last news from warframe
