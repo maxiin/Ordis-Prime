@@ -38,7 +38,7 @@ module.exports = {
         	}
 
             //create the string to return and send it
-        	finalStr = 'Earth\' ' + eCycle + ' will end in ' + response.earthCycle.timeLeft + '\n' + 'Cetus\' ' + cCycle + ' will end in ' + response.cetusCycle.timeLeft;
+        	finalStr ='Game time: ' + response.timestamp + '\n' + 'Earth\' ' + eCycle + ' will end in ' + response.earthCycle.timeLeft + '\n' + 'Cetus\' ' + cCycle + ' will end in ' + response.cetusCycle.timeLeft;
 
         	data.reply.text(finalStr);
 
