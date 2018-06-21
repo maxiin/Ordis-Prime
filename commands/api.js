@@ -2,16 +2,99 @@
 var url = 'https://ws.warframestat.us/pc';
 var http = require('https');
 let ordis = require('../ordis');
-var finalStr;
-var eCycle;
-var cCycle;
-var levels = [" Level 50-60"," Level 65-80", " Level 80-100"]
 
 module.exports = {
 
 	getTime: function(data){
 
-        //http connection
+        var finalStr;
+        var eCycle;
+        var cCycle;
+
+        	download((response)=>{
+                //test if the api says if isDay is true, to get the time more accurate
+                response.earthCycle.isDay ? eCycle = 'day' : eCycle = 'night';
+                response.cetusCycle.isDay ? cCycle = 'day' : cCycle = 'night';
+
+                //create the string to return and send it
+                finalStr =`Game time: ${response.timestamp}\n`+
+                            `Earth\' ${eCycle} will end in ${response.earthCycle.timeLeft}\n`+
+                            `Cetus\' ${cCycle} will end in ${response.cetusCycle.timeLeft}`;
+
+                data.reply.text(finalStr);
+            });
+
+	},
+
+    getSortie: function(data){
+
+        var finalStr;
+        var levels = [" Level 50-60"," Level 65-80", " Level 80-100"]
+
+        download((response) => {
+            response = response.sortie;
+
+            let finalStr = `Time left: ${response.eta}\n`+
+                            `Defeat ${response.boss}'s Forces\n`;
+            for(let index = 0; index < 3; index++){
+                finalStr += `-----\n`+
+                            `${response.variants[index].node} ${levels[index]}\n`+
+                            `${response.variants[index].missionType}\n`+
+                            `${response.variants[index].modifier}\n`;
+            }
+
+            data.reply.text(finalStr);
+        });
+
+    },
+
+    getNews: function(callback){
+        
+        download((response) => {
+            response = response.news;
+            var finalStr = "";
+            var len = response.length;
+            var margin = 0
+            if(len >=6){
+                margin = 6
+            }
+
+            for(let i = len-1; i > len-margin; i--){
+                finalStr += `${response[i].eta}\n`+
+                            `[${response[i].message}](${response[i].link})\n`+
+                            `-----\n`;
+            }
+
+            callback(finalStr);
+        });
+
+    },
+
+    getBaro: function(data){
+
+        download((response) => {
+            var baro = response.voidTrader;
+            var finalStr = "";
+
+            if(baro.active){
+                finalStr = `${baro.character} will be at ${baro.location} for ${baro.endString}\n-----\n`
+                for(let x = 0; x < baro.inventory.length; x++){
+                    let inv = baro.inventory[x];
+                    finalStr += `${inv.item} dc-${inv.ducats} cr-${inv.credits}\n`
+                }
+            }else{
+                finalStr = `${baro.character} will arrive in ${baro.startString} at ${baro.location}`
+            }
+
+            data.reply.text(finalStr);
+        })
+
+    }
+
+}
+
+function download(func){
+    //http connection
 		http.get(url, function(res){
     		var body = '';
 
@@ -22,104 +105,12 @@ module.exports = {
 
         //after the end of the stream
     	res.on('end', function(){
-        	var response = JSON.parse(body);
-
-            //test if the api says if isDay is true, to get the time more accurate
-        	if(response.earthCycle.isDay){
-        		eCycle = 'day';
-        	}else{
-        		eCycle = 'night';
-        	}
-
-        	if(response.cetusCycle.isDay){
-        		cCycle = 'day';
-        	}else{
-        		cCycle = 'night';
-        	}
-
-            //create the string to return and send it
-        	finalStr ='Game time: ' + response.timestamp + '\n' + 'Earth\' ' + eCycle + ' will end in ' + response.earthCycle.timeLeft + '\n' + 'Cetus\' ' + cCycle + ' will end in ' + response.cetusCycle.timeLeft;
-
-        	data.reply.text(finalStr);
-
-    	});
+            //calls function in the argument
+            func(JSON.parse(body));
+        });
 
         //log an error
 		}).on('error', function(e){
       		console.log("Got an error: ", e);
 		})
-
-	},
-
-    getSortie: function(data){
-
-        http.get(url, function(res){
-            var body = '';
-
-        //receiving data
-        res.on('data', function(chunk){
-            body += chunk;
-        });
-
-        res.on('end', function(){
-            var response = JSON.parse(body);
-            response = response.sortie;
-
-            let finalStr = "Time left: " + response.eta + "\n" + "Defeat " + response.boss + "'s Forces" + "\n";
-            for(let index = 0; index < 3; index++){
-                finalStr += "-----" + "\n" 
-                    + response.variants[index].node + levels[index] + "\n" 
-                    + response.variants[index].missionType + "\n" 
-                    + response.variants[index].modifier + "\n";
-            }
-
-            data.reply.text(finalStr);
-
-        });
-
-        //log an error
-        }).on('error', function(e){
-            console.log("Got an error: ", e);
-        })
-
-    },
-
-    getNews: function(callback){
-        http.get(url, function(res){
-            var body = '';
-
-        //receiving data
-        res.on('data', function(chunk){
-            body += chunk;
-        });
-
-        res.on('end', function(){
-            var response = JSON.parse(body);
-            response = response.news;
-            var finalStr = "";
-            var len = response.length;
-            var margin = 0
-            if(len >=6){
-                margin = 6
-            }
-
-            console.log(response[0]);
-
-            for(let i = len-1; i > len-margin; i--){
-                finalStr += response[i].eta + "\n" +
-                    "[" + response[i].message + "]" +
-                    "(" + response[i].link + ")" + "\n" +
-                    "-----" + "\n";
-            }            
-
-            callback(finalStr);
-
-        });
-
-        }).on('error', function(e){
-            console.log("Got an error: ", e);
-        })
-
-    }
-
 }

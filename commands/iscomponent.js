@@ -143,9 +143,6 @@ module.exports = {
 	    	case 'ninkondi':
 	       		return '[Ninkondi](http://warframe.wikia.com/wiki/Ninkondi) is crafting component for the [Shaku](http://warframe.wikia.com/wiki/Shaku)';
 	       		break;
-	    	case 'argon crystal':
-	       		return 'sadly argon crystals are not weapons';
-	       		break;
 	    	default:
 	       		return 'Ordis didn\'t find anything, operator, probably your weapon is not used for any crafting, this list was updated in April 20th, 2018.';	
 		} 

@@ -45,6 +45,11 @@ bot.on('text', function(data){
         });
     }
 
+    //commented until done testing
+    // if(data.text === "/baro"){
+    //     api.getBaro(data);
+    // }
+
 })
 
 //by the docs i saw that this needs to be in the bottom? still confused about it, supossedly it starts the bot itself
