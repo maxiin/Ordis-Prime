@@ -52,5 +52,5 @@ bot.on('text', function(data){
 
 })
 
-//by the docs i saw that this needs to be in the bottom? still confused about it, supossedly it starts the bot itself
+//starts the bot itself
 bot.start();
