@@ -50,7 +50,11 @@ bot.on('text', function(data){
     //     api.getBaro(data);
     // }
 
-})
+    if(data.text === "/alerts"){
+        api.getAlerts(data);
+    }
+
+});
 
 //by the docs i saw that this needs to be in the bottom? still confused about it, supossedly it starts the bot itself
 bot.start();

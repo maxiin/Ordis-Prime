@@ -87,12 +87,37 @@ module.exports = {
             }
 
             data.reply.text(finalStr);
-        })
+        });
+
+    },
+
+    getAlerts: function(data){
+
+        download((response) => {
+            var response = response.alerts;
+            var finalStr = "";
+
+            response.forEach(element => {
+                element.rewardTypes.forEach(e => {
+                    if(e === "credits" || e === "endo"){
+                        continue;
+                    }
+                });
+                finalStr += `-----\n`;
+                if(e.mission.description){
+                    finalStr += `${e.mission.description}\n`;
+                }
+                finalStr += `${e.mission.node} / ${e.mission.type} / ${e.mission.faction}\n`;
+                finalStr += `${e.mission.minEnemyLevel} - ${e.mission.maxEnemyLevel} / ${e.mission.reward.asString}\n`;
+            });
+
+        });
 
     }
 
 }
 
+//todo: make it search especific links.
 function download(func){
     //http connection
 		http.get(url, function(res){
