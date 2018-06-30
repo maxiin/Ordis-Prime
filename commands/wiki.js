@@ -1,23 +1,30 @@
-var url = 'http://warframe.wikia.com/api.php?action=opensearch&search=';
-var http = require('https');
-var finalStr;
+var http = require('http');
 
 module.exports = {
 
     callWiki: function(data, callback){
 
+        var url = 'http://warframe.wikia.com/api.php?action=opensearch&search=';
+        var finalStr = "";
+
         let search = data.substring(5, data.length);
 
-        let wordsArray = search.slice(" ");
+        let wordsArray = search.split(" ");
+
+        if(wordsArray)
 
         wordsArray.forEach(element => {
-            url += capitalizeFirstLetter(element);
+            url += capitalizeFirstLetter(element) + " ";
         });
+
+        console.log(url);
 
         download(url,(response) => {
             if(response[1].length > 0){
+                finalStr += "Wiki results:\n";
                 response[1].forEach(element => {
-                    finalStr += `[${element}](http://warframe.wikia.com/${element})`;
+                    var newElement = element.replace(/[{)}]/g, "%29");// parentesis bug
+                    finalStr += `[${element}](http://warframe.wikia.com/${newElement})\n`;
                 });
             }else{
                 finalStr = `No resuls found`;

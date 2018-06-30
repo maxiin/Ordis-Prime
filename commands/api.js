@@ -78,8 +78,8 @@ module.exports = {
             
             response.forEach(e => {
                 var remaining = e.total - e.sold;
-                finalStr += `${e.item}: ~~${e.originalPrice}pl~~ ${e.discount}% OFF, now for ${e.salePrice}pl\n`;
-                finalStr += `Remaining time: ${e.eta}, Remaining on stock: ${remaining}/${e.total}`;
+                finalStr += `*${e.item}* for ${e.salePrice}pl, ${e.discount}% OFF\n`;
+                finalStr += `Remaining time: ${e.eta}\nRemaining on stock: ${remaining}/${e.total}`;
             });
 
             callback(finalStr);
