@@ -80,7 +80,7 @@ module.exports = {
                 finalStr = `${baro.character} will be at ${baro.location} for ${baro.endString}\n-----\n`
                 for(let x = 0; x < baro.inventory.length; x++){
                     let inv = baro.inventory[x];
-                    finalStr += `${inv.item} dc-${inv.ducats} cr-${inv.credits}\n`
+                    finalStr += `${inv.item} | dc-${inv.ducats} cr-${inv.credits}\n`
                 }
             }else{
                 finalStr = `${baro.character} will arrive in ${baro.startString} at ${baro.location}`
@@ -97,12 +97,16 @@ module.exports = {
             var response = response.alerts;
             var finalStr = "";
 
+
+            //fix continue
             response.forEach(element => {
-                element.rewardTypes.forEach(e => {
+                for(let x = 0; x < element.rewardTypes.length; x++){
+                    let e = element.rewardTypes[x];
                     if(e === "credits" || e === "endo"){
                         continue;
                     }
-                });
+                }
+                let e = element;
                 finalStr += `-----\n`;
                 if(e.mission.description){
                     finalStr += `${e.mission.description}\n`;
@@ -110,6 +114,8 @@ module.exports = {
                 finalStr += `${e.mission.node} / ${e.mission.type} / ${e.mission.faction}\n`;
                 finalStr += `${e.mission.minEnemyLevel} - ${e.mission.maxEnemyLevel} / ${e.mission.reward.asString}\n`;
             });
+
+            data.reply.text(finalStr);
 
         });
 

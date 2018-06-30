@@ -46,9 +46,9 @@ bot.on('text', function(data){
     }
 
     //commented until done testing
-    // if(data.text === "/baro"){
-    //     api.getBaro(data);
-    // }
+    if(data.text === "/baro"){
+        api.getBaro(data);
+    }
 
     if(data.text === "/alerts"){
         api.getAlerts(data);
