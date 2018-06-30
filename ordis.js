@@ -6,6 +6,7 @@ const bot = new TeleBot(configs().telegramKey);
 //including the other file to controll the commands
 var iscomponent = require('./commands/iscomponent');
 var api = require('./commands/api');
+var wiki = require('./commands/wiki');
 
 //this will be called everytime the user send '/start'
 bot.on(['/start'], (data) => 
@@ -18,12 +19,12 @@ bot.on('text', function(data){
     console.log(lowerData);
 
     //handle /help command
-    if(data.text === '/help'){
+    if(data.text.startsWith('/help')){
         bot.sendMessage(data.chat.id, 'Here\'s the list of my commands\n/iscomp - Check if a certain weapon is crafting component for another one, Usage - */iscomp \'weapon name\'*\n/time - Get Cetus and Earth current time', {parseMode: "Markdown"});
     }
 
     //handle /iscomponent command
-    if(data.text.substring(0, 7) === "/iscomp" || data.text.substring(0, 23) === "/iscomp@ordis_prime_bot"){
+    if(data.text.startsWith("/iscomp")){
         //turn the text into lowercase for easy reading
         let toFunc = data.text.toLowerCase();
         //this way to send msg is more complicated because of the parseMode that allows me to send links 
@@ -31,26 +32,38 @@ bot.on('text', function(data){
         bot.sendMessage(data.chat.id, iscomponent.test(toFunc), {parseMode: "Markdown", webPreview: false });
     }
 
-    if(data.text === '/time'){
+    if(data.text.startsWith('/time')){
    		api.getTime(data);
     }
 
-    if(data.text === '/sortie'){
+    if(data.text.startsWith('/sortie')){
         api.getSortie(data);
     }
 
-    if(data.text === '/news'){
+    if(data.text.startsWith('/news')){
         api.getNews(function(m){
             bot.sendMessage(data.chat.id, m, {parseMode: "Markdown", webPreview: false });
         });
     }
 
-    if(data.text === "/baro"){
+    if(data.text.startsWith("/baro")){
         api.getBaro(data);
     }
 
-    if(data.text === "/alerts"){
+    if(data.text.startsWith("/alerts")){
         api.getAlerts(data);
+    }
+
+    if(data.text.startsWith("/darvo")){
+        api.getDarvo(function(m){
+            bot.sendMessage(data.chat.id, m, {parseMode: "Markdown", webPreview: false });
+        });
+    }
+
+    if(data.text.startsWith("/wiki")){
+        wiki.callWiki(data.text, function(m){
+            bot.sendMessage(data.chat.id, m, {parseMode: "Markdown", webPreview: false });
+        });
     }
 
 });

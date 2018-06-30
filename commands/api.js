@@ -70,6 +70,24 @@ module.exports = {
 
     },
 
+    getDarvo: function(callback){
+        
+        download((response) => {
+            response = response.dailyDeals;
+            var finalStr = "Darvo deals:\n";
+            
+            response.forEach(e => {
+                var remaining = e.total - e.sold;
+                finalStr += `${e.item}: ~~${e.originalPrice}pl~~ ${e.discount}% OFF, now for ${e.salePrice}pl\n`;
+                finalStr += `Remaining time: ${e.eta}, Remaining on stock: ${remaining}/${e.total}`;
+            });
+
+            callback(finalStr);
+            
+        });
+
+    },
+
     getBaro: function(data){
 
         download((response) => {
@@ -95,7 +113,7 @@ module.exports = {
 
         download((response) => {
             var response = response.alerts;
-            var finalStr = "";
+            var finalStr = "Alerts:\n";
 
 
             //fix continue
@@ -129,19 +147,19 @@ function download(func){
 		http.get(url, function(res){
     		var body = '';
 
-        //receiving data
-    	res.on('data', function(chunk){
-        	body += chunk;
-    	});
+            //receiving data
+            res.on('data', function(chunk){
+                body += chunk;
+            });
 
-        //after the end of the stream
-    	res.on('end', function(){
-            //calls function in the argument
-            func(JSON.parse(body));
-        });
+            //after the end of the stream
+            res.on('end', function(){
+                //calls function in the argument
+                func(JSON.parse(body));
+            });
 
         //log an error
 		}).on('error', function(e){
       		console.log("Got an error: ", e);
-		})
+		});
 }
