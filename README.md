@@ -20,4 +20,4 @@ This bot is still in development and it don't have many features yet.
 - alerts - Shows the Alert missions.
 - baro - Shows the Void Trader items or when he will appear.
 - darvo - Get Darvo's current deal.
-- wiki - Makes a search on Warframe\'s wiki page.
+- wiki - Makes a search on Warframe's wiki page.
