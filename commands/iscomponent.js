@@ -13,8 +13,12 @@ module.exports = {
 			startingPoint = 8;
 		}
 
+		let test = data.substring(startingPoint, data.length);
+
+		test = test.replace(/[{_}]/g, " ");//remove underline
+
 		//this will test, from the starting point that was set in the if before, until the end of the string.
-		switch(data.substring(startingPoint, data.length)) {
+		switch(test) {
 			//simple switch for each weapon that can be crafted intro another
 			//the [name](link) is converted to an hyperlink with markdown that the user can click to go to the wiki for that especific weapon
 	    	case 'cernos':
