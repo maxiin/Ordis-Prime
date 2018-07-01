@@ -13,9 +13,11 @@ This bot is still in development and it don't have many features yet.
 - Current sortie status
 
 ## Commands
-- iscomp - If weapons used to make other
-- time - Show Cetus and Earth current time
-- sortie - Get current sortie mission detail
-- news - The last news from warframe
-- alerts - Shows the missions of type alert
-- baro - Shows the void trader items or when will he appear
+- iscomp - Check if a certain weapon is a crafting component for another one.
+- time - Get the current time on Cetus and Earth.
+- sortie - Get the details on the current Sortie.
+- news - The lastest news from warframe.
+- alerts - Shows the Alert missions.
+- baro - Shows the Void Trader items or when he will appear.
+- darvo - Get Darvo's current deal.
+- wiki - Makes a search on Warframe\'s wiki page.
