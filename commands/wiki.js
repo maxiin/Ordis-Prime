@@ -7,7 +7,19 @@ module.exports = {
         var url = 'http://warframe.wikia.com/api.php?action=opensearch&search=';
         var finalStr = "";
 
-        let search = data.substring(5, data.length);
+        var startingPoint;
+
+		//if after the command has an '@' that means that its on a group so the name will only start after /wiki@ordis-prime-bot
+		if(data.substring(5).startsWith('@')){
+			startingPoint = 21;
+		//else it will start after /iscomponent
+		}else{
+			startingPoint = 5;
+		}
+
+        let search = data.substring(startingPoint, data.length);
+
+        console.log(search + "aaaaaaaaaa" + data.substring(5));
 
         let wordsArray = search.split(" ");
 
@@ -27,7 +39,7 @@ module.exports = {
                     finalStr += `[${element}](http://warframe.wikia.com/${newElement})\n`;
                 });
             }else{
-                finalStr = `No resuls found`;
+                finalStr = `No results found`;
             }
             callback(finalStr);
         });
@@ -59,5 +71,6 @@ function download(captalizedUrl,func){
 }
 
 function capitalizeFirstLetter(string) {
+    if(string.includes("and")){return string};
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
