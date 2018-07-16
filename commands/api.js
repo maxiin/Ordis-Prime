@@ -129,9 +129,9 @@ module.exports = {
                 if(e.mission.description){
                     finalStr += `${e.mission.description}\n`;
                 }
-                finalStr += `${e.mission.node} / ${e.mission.type} / ${e.mission.faction}\n`;
+                finalStr += `${e.mission.node} ${e.mission.minEnemyLevel} - ${e.mission.maxEnemyLevel} / ${e.mission.type} / ${e.mission.faction}\n`;
                 finalStr += `Remaining: ${e.eta}\n`
-                finalStr += `${e.mission.minEnemyLevel} - ${e.mission.maxEnemyLevel} / ${e.mission.reward.asString}\n`;
+                finalStr += `${e.mission.reward.asString}\n`;
             });
 
             data.reply.text(finalStr);
