@@ -7,7 +7,11 @@ It can be acessed with [this link](https://t.me/ordis_prime_bot) or sending a me
 ## Features
 - Cetus/Plains of Eidolon and Earth missions Time
 - Find Weapons that need to be used for crafting others
-- Current sortie status
+- Current sortie and alert status
+- News from the website
+- Void trader items and eta
+- Discounts in the in-game store
+- Warframe Wikia search
 
 ## Commands
 - iscomp - Check if a certain weapon is a crafting component for another one.
