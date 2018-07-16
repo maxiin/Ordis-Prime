@@ -1,5 +1,6 @@
 # Ordis-Prime
 [![Telegram link](https://img.shields.io/badge/Telegram-bot%20link-blue.svg)](https://t.me/ordis_prime_bot)
+![license](https://img.shields.io/github/license/mashape/apistatus.svg)
 
 Ordis prime is a [Telegram](https://telegram.org/) bot that can help players in the game [Warframe](https://www.warframe.com/).
 It can be acessed with [this link](https://t.me/ordis_prime_bot) or sending a message to @ordis_prime_bot in the app.
