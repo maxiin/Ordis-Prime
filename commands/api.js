@@ -130,6 +130,7 @@ module.exports = {
                     finalStr += `${e.mission.description}\n`;
                 }
                 finalStr += `${e.mission.node} / ${e.mission.type} / ${e.mission.faction}\n`;
+                finalStr += `Remaining: ${e.eta}\n`
                 finalStr += `${e.mission.minEnemyLevel} - ${e.mission.maxEnemyLevel} / ${e.mission.reward.asString}\n`;
             });
 
