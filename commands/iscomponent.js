@@ -148,9 +148,13 @@ module.exports = {
 	       		return '[Ninkondi](http://warframe.wikia.com/wiki/Ninkondi) is crafting component for the [Shaku](http://warframe.wikia.com/wiki/Shaku)';
 	       		break;
 	    	default:
-	       		return 'Ordis didn\'t find anything, operator, probably your weapon is not used for any crafting, this list was updated in April 20th, 2018.';	
+	       		return 'Ordis didn\'t find anything, ' + tenno() + '. Your weapon probably isn\'t used for any crafting.\nThis list was updated in April 20th, 2018.';	
 		} 
 
 	} 
 
+}
+
+function tenno(){
+	return Math.random() >= 0.5?  "Operator":"Star-Child";
 }

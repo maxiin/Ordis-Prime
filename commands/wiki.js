@@ -39,7 +39,7 @@ module.exports = {
                     finalStr += `[${element}](http://warframe.wikia.com/${newElement})\n`;
                 });
             }else{
-                finalStr = `No results found`;
+                finalStr = `No results found, ${tenno()}`;
             }
             callback(finalStr);
         });
@@ -73,4 +73,8 @@ function download(captalizedUrl,func){
 function capitalizeFirstLetter(string) {
     if(string.includes("and")){return string};
     return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function tenno(){
+	return Math.random() >= 0.5?  "Operator":"Star-Child";
 }

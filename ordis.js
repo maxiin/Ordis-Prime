@@ -10,7 +10,7 @@ var wiki = require('./commands/wiki');
 
 //this will be called everytime the user send '/start'
 bot.on(['/start'], (data) => 
-    data.reply.text('Hello! I am Ordis, ship cephalon, how can i help you, operator?\nFor a list of commands or what each command can do, please use /help'));
+    data.reply.text('Hello! I am Ordis, ship cephalon, how can I help you, ' + tenno() + '?\nFor a list of commands or what each command can do, please use /help'));
 
 //in every message of the type text, this will be called
 bot.on('text', function(data){
@@ -67,6 +67,10 @@ bot.on('text', function(data){
     }
 
 });
+
+function tenno(){
+	return Math.random() >= 0.5?  "Operator":"Star-Child";
+}
 
 //starts the bot itself
 bot.start();
