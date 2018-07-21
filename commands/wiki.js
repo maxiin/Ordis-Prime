@@ -65,7 +65,7 @@ function download(captalizedUrl,func){
                     var a = JSON.parse(body);
                     func(a);
                 } catch(e) {
-                    alert(e);
+                    console.log(e + body);
                 }
             });
 
