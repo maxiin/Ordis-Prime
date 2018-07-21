@@ -61,7 +61,12 @@ function download(captalizedUrl,func){
             //after the end of the stream
             res.on('end', function(){
                 //calls function in the argument
-                func(JSON.parse(body));
+                try {
+                    var a = JSON.parse(body);
+                    func(a);
+                } catch(e) {
+                    alert(e);
+                }
             });
 
         //log an error
