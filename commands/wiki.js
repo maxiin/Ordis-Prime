@@ -29,6 +29,8 @@ module.exports = {
             url += capitalizeFirstLetter(element) + " ";
         });
 
+        url += "&amp";
+
         console.log(url);
 
         download(url,(response) => {
