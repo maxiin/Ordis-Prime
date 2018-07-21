@@ -7,7 +7,7 @@ It can be acessed with [this link](https://t.me/ordis_prime_bot) or sending a me
 ## Features
 - Cetus/Plains of Eidolon and Earth missions Time
 - Find Weapons that need to be used for crafting others
-- Current sortie and alert status
+- Current sortie, alert and invansion status
 - News from the website
 - Void trader items and eta
 - Discounts in the in-game store
@@ -19,6 +19,7 @@ It can be acessed with [this link](https://t.me/ordis_prime_bot) or sending a me
 - sortie - Get the details on the current Sortie.
 - news - The lastest news from warframe.
 - alerts - Shows the Alert missions.
+- invasions - Shows the Invasion mission.
 - baro - Shows the Void Trader items or when he will appear.
 - darvo - Get Darvo's current deal.
 - wiki - Makes a search on Warframe's wiki page.
