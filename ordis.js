@@ -60,6 +60,10 @@ bot.on('text', function(data){
         });
     }
 
+    if(data.text.startsWith("/invasions")){
+        api.getInvasion(data);
+    }
+
     if(data.text.startsWith("/wiki")){
         wiki.callWiki(data.text, function(m){
             bot.sendMessage(data.chat.id, m, {parseMode: "Markdown", webPreview: false });

@@ -118,12 +118,13 @@ module.exports = {
 
             //fix continue
             response.forEach(element => {
-                for(let x = 0; x < element.rewardTypes.length; x++){
-                    let e = element.rewardTypes[x];
-                    if(e === "credits" || e === "endo"){
-                        continue;
-                    }
-                }
+                // implement credit check
+                // for(let x = 0; x < element.rewardTypes.length; x++){
+                //     let e = element.rewardTypes[x];
+                //     if(e === "credits" || e === "endo"){
+                //         continue;
+                //     }
+                // }
                 let e = element;
                 finalStr += `-----\n`;
                 if(e.mission.description){
@@ -133,6 +134,29 @@ module.exports = {
                 finalStr += `Remaining: ${e.eta}\n`
                 finalStr += `${e.mission.reward.asString}\n`;
             });
+
+            data.reply.text(finalStr);
+
+        });
+
+    },
+
+    getInvasion: function(data){
+
+        download((response) => {
+
+            var response = response.invasions;
+            var finalStr = "Invasions:\n";
+
+            for(let x = 0; x < response.length; x++){
+                if(response[x].completion < 0 || response[x].eta.startsWith("-")){
+                    continue;
+                }
+                finalStr += `-----\n`;
+                finalStr += `${response[x].node} ${Math.floor(response[x].completion)}%\n`;
+                var isInfested = response[x].attackerReward.asString === "" ? "" : `(${response[x].attackerReward.asString})`
+                finalStr += `${response[x].attackingFaction}${isInfested} vs ${response[x].defendingFaction}(${response[x].defenderReward.asString})\n`
+            }
 
             data.reply.text(finalStr);
 
