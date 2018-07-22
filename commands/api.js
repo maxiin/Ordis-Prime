@@ -1,5 +1,5 @@
 //url for the warframe api and the requirements for this archive
-var url = 'https://ws.warframestat.us/pc';
+var url = 'https://ws.warframestat.us/pc/';
 var http = require('https');
 let ordis = require('../ordis');
 
@@ -86,7 +86,7 @@ module.exports = {
 
     getBaro: function(data){
 
-        download("voidTrader",(response) => {
+        download("voidTrader",(baro) => {
             var finalStr = "";
 
             if(baro.active){
@@ -161,6 +161,7 @@ module.exports = {
 function download(sub,func){
     //http connection
 		http.get(url + sub, function(res){
+            console.log(url + sub);
     		var body = '';
 
             //receiving data
