@@ -1,5 +1,4 @@
 const TeleBot = require('telebot');
-const configs = require('./config');
 //sending the telegram custom key for controlling the bot
 const bot = new TeleBot(process.env.TELEGRAM_KEY);
 
