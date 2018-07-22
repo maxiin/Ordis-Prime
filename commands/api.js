@@ -157,7 +157,6 @@ module.exports = {
 
 }
 
-//todo: make it search especific links.
 function download(sub,func){
     //http connection
 		http.get(url + sub, function(res){
