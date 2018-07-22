@@ -11,7 +11,7 @@ module.exports = {
         var eCycle;
         var cCycle;
 
-        	download((response)=>{
+        	download("",(response)=>{
                 //test if the api says if isDay is true, to get the time more accurate
                 response.earthCycle.isDay ? eCycle = 'day' : eCycle = 'night';
                 response.cetusCycle.isDay ? cCycle = 'day' : cCycle = 'night';
@@ -31,9 +31,7 @@ module.exports = {
         var finalStr;
         var levels = [" Level 50-60"," Level 65-80", " Level 80-100"]
 
-        download((response) => {
-            response = response.sortie;
-
+        download("sortie",(response) => {
             let finalStr = `Time left: ${response.eta}\n`+
                             `Defeat ${response.boss}'s Forces\n`;
             for(let index = 0; index < 3; index++){
@@ -50,8 +48,7 @@ module.exports = {
 
     getNews: function(callback){
         
-        download((response) => {
-            response = response.news;
+        download("news",(response) => {
             var finalStr = "";
             var len = response.length;
             var margin = 0
@@ -72,8 +69,7 @@ module.exports = {
 
     getDarvo: function(callback){
         
-        download((response) => {
-            response = response.dailyDeals;
+        download("dailyDeals",(response) => {
             var finalStr = "Darvo deals:\n";
             
             response.forEach(e => {
@@ -90,8 +86,7 @@ module.exports = {
 
     getBaro: function(data){
 
-        download((response) => {
-            var baro = response.voidTrader;
+        download("voidTrader",(response) => {
             var finalStr = "";
 
             if(baro.active){
@@ -111,12 +106,10 @@ module.exports = {
 
     getAlerts: function(data){
 
-        download((response) => {
-            var response = response.alerts;
+        download("alerts",(response) => {
             var finalStr = "Alerts:\n";
 
-
-            //fix continue
+            //todo: fix continue
             response.forEach(element => {
                 // implement credit check
                 // for(let x = 0; x < element.rewardTypes.length; x++){
@@ -143,9 +136,7 @@ module.exports = {
 
     getInvasion: function(data){
 
-        download((response) => {
-
-            var response = response.invasions;
+        download("invasions",(response) => {
             var finalStr = "Invasions:\n";
 
             for(let x = 0; x < response.length; x++){
@@ -167,9 +158,9 @@ module.exports = {
 }
 
 //todo: make it search especific links.
-function download(func){
+function download(sub,func){
     //http connection
-		http.get(url, function(res){
+		http.get(url + sub, function(res){
     		var body = '';
 
             //receiving data
