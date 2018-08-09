@@ -69,6 +69,10 @@ bot.on('text', function(data){
         });
     }
 
+    if(data.text.startsWith("/acolytes")){
+        api.getAcolytes(data);
+    }
+
 });
 
 function tenno(){

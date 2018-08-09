@@ -153,6 +153,21 @@ module.exports = {
 
         });
 
+    },
+
+    getAcolytes: function(data){
+        
+        //var finalStr;
+
+        download("xxx",(response, error) => {
+
+            if(error){
+                console.log(error);
+            }else{
+                //data.reply.text(finalStr);
+            }
+
+        });
     }
 
 }
@@ -171,7 +186,12 @@ function download(sub,func){
             //after the end of the stream
             res.on('end', function(){
                 //calls function in the argument
-                func(JSON.parse(body));
+                if(body){
+                    func(JSON.parse(body));
+                }else{
+                    func(null, "body is empty");
+                }
+                
             });
 
         //log an error
