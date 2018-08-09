@@ -157,7 +157,7 @@ module.exports = {
 
     getAcolytes: function(data){
         
-        var finalStr;
+        var finalStr = "";
 
         download("persistentEnemies",(response, error) => {
 
@@ -170,12 +170,12 @@ module.exports = {
                     let health = Math.floor(enemy.healthPercent * 100);
 
                     if(enemy.isDiscovered){
-                        finalStr += `${enemy.agentType} is at ${enemy.lastDiscoveredAt} with ${health}% health.}`
+                        finalStr += `${enemy.agentType} is at ${enemy.lastDiscoveredAt} with ${health}% health.}\n`
                     }else{
-                        finalStr += `${enemy.agentType} is with ${health} and was not found yet`
+                        finalStr += `${enemy.agentType} is with ${health} and was not found yet\n`
                     }
 
-                    finalStr += "-----";
+                    finalStr += "-----\n";
 
                 });
 
