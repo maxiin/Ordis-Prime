@@ -157,14 +157,29 @@ module.exports = {
 
     getAcolytes: function(data){
         
-        //var finalStr;
+        var finalStr;
 
         download("xxx",(response, error) => {
 
-            if(error){
-                console.log(error);
+            if(error == "body is empty"){
+                finalStr = "I haven't found any Stalker acolyte at the moment."
             }else{
-                //data.reply.text(finalStr);
+
+                response.forEach((enemy) => {
+
+                    let health = Math.floor(enemy.healthPercent * 100);
+
+                    if(enemy.isDiscovered){
+                        finalStr += `${enemy.agentType} is at ${enemy.lastDiscoveredAt} with ${health}% health.}`
+                    }else{
+                        finalStr += `${enemy.agentType} is with ${health} and was not found yet`
+                    }
+
+                    finalStr += "-----";
+
+                });
+
+                data.reply.text(finalStr);
             }
 
         });
