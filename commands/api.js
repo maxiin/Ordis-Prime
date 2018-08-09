@@ -172,7 +172,7 @@ module.exports = {
                     if(enemy.isDiscovered){
                         finalStr += `${enemy.agentType} is at ${enemy.lastDiscoveredAt} with ${health}% health.}\n`
                     }else{
-                        finalStr += `${enemy.agentType} is with ${health} and was not found yet\n`
+                        finalStr += `${enemy.agentType} is with ${health}% health and was not found yet\n`
                     }
 
                     finalStr += "-----\n";
