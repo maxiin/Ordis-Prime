@@ -186,7 +186,7 @@ function download(sub,func){
             //after the end of the stream
             res.on('end', function(){
                 //calls function in the argument
-                if(body){
+                if(body != ''){
                     func(JSON.parse(body));
                 }else{
                     func(null, "body is empty");
