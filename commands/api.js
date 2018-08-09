@@ -170,9 +170,9 @@ module.exports = {
                     let health = Math.floor(enemy.healthPercent * 100);
 
                     if(enemy.isDiscovered){
-                        finalStr += `${enemy.agentType} is at ${enemy.lastDiscoveredAt} with ${health}% health.}\n`
+                        finalStr += `${enemy.agentType} was found at ${enemy.lastDiscoveredAt} and has ${health}% health remaining.\n`
                     }else{
-                        finalStr += `${enemy.agentType} is with ${health}% health and was not found yet\n`
+                        finalStr += `${enemy.agentType} has ${health}% health remaining and was not found yet.\n`
                     }
 
                     finalStr += "-----\n";
