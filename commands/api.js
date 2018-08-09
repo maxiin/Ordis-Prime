@@ -159,7 +159,7 @@ module.exports = {
         
         var finalStr;
 
-        download("xxx",(response, error) => {
+        download("persistentEnemies",(response, error) => {
 
             if(error == "body is empty"){
                 finalStr = "I haven't found any Stalker acolyte at the moment."
