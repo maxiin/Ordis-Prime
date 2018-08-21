@@ -212,7 +212,9 @@ function download(sub,func){
         //log an error
 		}).on('error', function(e){
       		console.log("Got an error: ", e);
-		}).catch((error) => {
+        })
+        
+        http.catch((error) => {
             console.log(error);
         });
 }
