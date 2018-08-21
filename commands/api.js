@@ -203,8 +203,10 @@ function download(sub,func){
                 //calls function in the argument
                 if(body != ''){
                     func(JSON.parse(body));
-                }else if (sub == "persistentEnemies"){
-                    func(null, "body is empty");
+                }else{
+                    if (sub == "persistentEnemies"){
+                        func(null, "body is empty");
+                    }
                 }
                 
             });
