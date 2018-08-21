@@ -204,9 +204,7 @@ function download(sub,func){
                 if(body != ''){
                     func(JSON.parse(body));
                 }else{
-                    if (sub == "persistentEnemies"){
-                        func(null, "body is empty");
-                    }
+                    func(null, "body is empty");
                 }
                 
             });
