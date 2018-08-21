@@ -196,9 +196,7 @@ function download(sub,func){
             //receiving data
             res.on('data', function(chunk){
                 body += chunk;
-            }).catch(reason){
-                console.log(reason);
-            };
+            })
 
             //after the end of the stream
             res.on('end', function(){
@@ -214,5 +212,7 @@ function download(sub,func){
         //log an error
 		}).on('error', function(e){
       		console.log("Got an error: ", e);
-		});
+		}).catch((error) => {
+            console.log(error);
+        });
 }
