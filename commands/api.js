@@ -214,7 +214,4 @@ function download(sub,func){
       		console.log("Got an error: ", e);
         })
         
-        http.catch((error) => {
-            console.log(error);
-        });
 }
