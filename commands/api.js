@@ -172,7 +172,7 @@ module.exports = {
                     if(enemy.isDiscovered){
                         finalStr += `${enemy.agentType} was found at ${enemy.lastDiscoveredAt} and has ${health}% health remaining.\n`
                     }else{
-                        finalStr += `${enemy.agentType} has ${health}% health remaining and was not found yet.\n`
+                        finalStr += `${enemy.agentType} *has ${health}% health remaining and was not found yet.\n`
                     }
 
                     finalStr += "-----\n";
@@ -203,7 +203,7 @@ function download(sub,func){
                 //calls function in the argument
                 if(body != ''){
                     func(JSON.parse(body));
-                }else{
+                }else if (sub == "persistentEnemies"){
                     func(null, "body is empty");
                 }
                 
