@@ -196,7 +196,9 @@ function download(sub,func){
             //receiving data
             res.on('data', function(chunk){
                 body += chunk;
-            });
+            }).catch(reason){
+                console.log(reason);
+            };
 
             //after the end of the stream
             res.on('end', function(){
