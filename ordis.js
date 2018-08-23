@@ -19,7 +19,7 @@ bot.on('text', function(data){
 
     //handle /help command
     if(data.text.startsWith('/help')){
-        bot.sendMessage(data.chat.id, 'Here\'s the list of my commands\n/iscomp - Check if a certain weapon is a crafting component for another one. Usage - */iscomp weapon_name*\n/time - Get the current time on Cetus and Earth\n/sortie - Get the details on the current Sortie\n/news - The lastest news from warframe\n/alerts - Shows the Alert missions\n/baro - Shows the Void Trader items or when he will appear\n/darvo - Get Darvo\'s current deal\n/wiki - Makes a search on Warframe\'s wiki page. Usage - */wiki search*', {parseMode: "Markdown"});
+        bot.sendMessage(data.chat.id, 'Here\'s the list of my commands\n/iscomp - Check if a certain weapon is a crafting component for another one. Usage - */iscomp weapon_name*\n/time - Get the current time on Cetus and Earth\n/sortie - Get the details on the current Sortie\n/news - The lastest news from warframe\n/alerts - Shows the Alert missions\n/baro - Shows the Void Trader items or when he will appear\n/darvo - Get Darvo\'s current deal\n/wiki - Makes a search on Warframe\'s wiki page. Usage - */wiki search*\n/acolytes - Shows if the Acolytes are on the game.', {parseMode: "Markdown"});
     }
 
     //handle /iscomponent command
