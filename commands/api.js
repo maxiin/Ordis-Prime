@@ -137,6 +137,7 @@ module.exports = {
     getInvasion: function(data){
 
         download("invasions",(response) => {
+
             var finalStr = "Invasions:\n";
 
             for(let x = 0; x < response.length; x++){
@@ -159,9 +160,9 @@ module.exports = {
         
         var finalStr = "";
 
-        download("persistentEnemies",(response, error) => {
+        download("persistentEnemies",(response) => {
 
-            if(error == "body is empty"){
+            if(response == ""){
                 finalStr = "I haven't found any Stalker acolyte at the moment."
             }else{
 
@@ -178,9 +179,9 @@ module.exports = {
                     finalStr += "-----\n";
 
                 });
-
-                data.reply.text(finalStr);
             }
+
+            data.reply.text(finalStr);
 
         });
     }
@@ -193,25 +194,21 @@ function download(sub,func){
             console.log(url + sub);
     		var body = '';
 
-            try{
-                //receiving data
-                res.on('data', function(chunk){
-                    body += chunk;
-                })
+            //receiving data
+            res.on('data', function(chunk){
+                body += chunk;
+            })
 
-                //after the end of the stream
-                res.on('end', function(){
-                    //calls function in the argument
-                    if(body != ''){
-                        func(JSON.parse(body));
-                    }else{
-                        func(null, "body is empty");
-                    }
-                    
-                });
-            }catch(e){
-                console.log(e);
-            }
+            //after the end of the stream
+            res.on('end', function(){
+                //calls function in the argument
+                if(body != ''){
+                    func(JSON.parse(body));
+                }else{
+                    func(body);
+                }
+                  
+            });
 
         //log an error
 		}).on('error', function(e){
