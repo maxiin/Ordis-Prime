@@ -23,4 +23,4 @@ It can be acessed with [this link](https://t.me/ordis_prime_bot) or sending a me
 - baro - Shows the Void Trader items or when he will appear.
 - darvo - Get Darvo's current deal.
 - wiki - Makes a search on Warframe's wiki page.
-- acolytes - Shows if Stalker acolyte event is on
+- acolytes - Shows if the Acolytes are on the game.
