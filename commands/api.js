@@ -7,11 +7,12 @@ module.exports = {
 
 	getTime: function(data){
 
-        var finalStr;
         var eCycle;
         var cCycle;
 
         	download("",(response)=>{
+
+                let finalStr;
 
                 if(response == ""){
                     finalStr = notFound('The game time');
@@ -35,16 +36,17 @@ module.exports = {
 
     getSortie: function(data){
 
-        var finalStr;
         var levels = [" Level 50-60"," Level 65-80", " Level 80-100"]
 
         download("sortie",(response) => {
+
+            let finalStr = "";
 
             if(response == ""){
                 finalStr = notFound('Sorties');
             }else{
 
-                let finalStr = `Time left: ${response.eta}\n`+
+                finalStr = `Time left: ${response.eta}\n`+
                                 `Defeat ${response.boss}'s Forces\n`;
                 for(let index = 0; index < 3; index++){
                     finalStr += `-----\n`+
@@ -64,11 +66,12 @@ module.exports = {
         
         download("news",(response) => {
 
+            let finalStr = "";
+
             if(response == ""){
                 finalStr = notFound('The news');
             }else{
 
-                var finalStr = "";
                 var len = response.length;
                 var margin = 0
                 if(len >=6){
@@ -92,11 +95,13 @@ module.exports = {
         
         download("dailyDeals",(response) => {
 
+            let finalStr = "";
+
             if(response == ""){
                 finalStr = notFound('Darvo');
             }else{
 
-                var finalStr = "Darvo deals:\n";
+                finalStr = "Darvo deals:\n";
                 
                 response.forEach(e => {
                     var remaining = e.total - e.sold;
@@ -116,11 +121,11 @@ module.exports = {
 
         download("voidTrader",(baro) => {
 
-            if(response == ""){
+            let finalStr = "";
+
+            if(baro == ""){
                 finalStr = notFound('The void trader');
             }else{
-
-                var finalStr = "";
 
                 if(baro.active){
                     finalStr = `${baro.character} will be at ${baro.location} for ${baro.endString}\n-----\n`
@@ -142,11 +147,13 @@ module.exports = {
 
         download("alerts",(response) => {
 
+            let finalStr = "";
+
             if(response == ""){
                 finalStr = notFound('Alerts');
             }else{
 
-                var finalStr = "Alerts:\n";
+                finalStr = "Alerts:\n";
 
                 //todo: fix continue
                 response.forEach(element => {
@@ -179,11 +186,13 @@ module.exports = {
 
         download("invasions",(response) => {
 
+            let finalStr = "";
+
             if(response == ""){
                 finalStr = notFound('Invasions');
             }else{
 
-                var finalStr = "Invasions:\n";
+                finalStr = "Invasions:\n";
 
                 for(let x = 0; x < response.length; x++){
                     if(response[x].completion < 0 || response[x].eta.startsWith("-")){
@@ -204,10 +213,10 @@ module.exports = {
     },
 
     getAcolytes: function(data){
-        
-        var finalStr = "";
 
         download("persistentEnemies",(response) => {
+
+            let finalStr = "";
 
             if(response == ""){
                 finalStr = notFound('Stalker Acolytes');
