@@ -193,21 +193,25 @@ function download(sub,func){
             console.log(url + sub);
     		var body = '';
 
-            //receiving data
-            res.on('data', function(chunk){
-                body += chunk;
-            })
+            try{
+                //receiving data
+                res.on('data', function(chunk){
+                    body += chunk;
+                })
 
-            //after the end of the stream
-            res.on('end', function(){
-                //calls function in the argument
-                if(body != ''){
-                    func(JSON.parse(body));
-                }else{
-                    func(null, "body is empty");
-                }
-                
-            });
+                //after the end of the stream
+                res.on('end', function(){
+                    //calls function in the argument
+                    if(body != ''){
+                        func(JSON.parse(body));
+                    }else{
+                        func(null, "body is empty");
+                    }
+                    
+                });
+            }catch(e){
+                console.log(e);
+            }
 
         //log an error
 		}).on('error', function(e){
