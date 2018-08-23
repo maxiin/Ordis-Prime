@@ -209,6 +209,10 @@ function download(sub,func){
                 
             });
 
+            res.catch((err) => {
+                console.log(err);
+            });
+
         //log an error
 		}).on('error', function(e){
       		console.log("Got an error: ", e);
