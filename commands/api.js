@@ -160,7 +160,7 @@ module.exports = {
                     // implement credit check
                     // for(let x = 0; x < element.rewardTypes.length; x++){
                     //     let e = element.rewardTypes[x];
-                    //     if(e === "credits" || e === "endo"){
+                    //     if(e !== "credits" && e !== "endo"){
                     //         continue;
                     //     }
                     // }
