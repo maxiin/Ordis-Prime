@@ -150,12 +150,12 @@ module.exports = {
         finalStr = 'Alerts:\n';
 
         response.forEach((element) => {
-          let creditOrEndoOnly = true;
+          let creditOrEndoOnly = false;
 
           for (let x = 0; x < element.rewardTypes.length; x += 1) {
             const e = element.rewardTypes[x];
-            if (e !== 'credits' || e !== 'endo') {
-              creditOrEndoOnly = false;
+            if (e === 'credits' || e === 'endo') {
+              creditOrEndoOnly = true;
             }
           }
 
