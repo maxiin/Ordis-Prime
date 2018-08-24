@@ -87,14 +87,15 @@ module.exports = {
       if (response === '') {
         finalStr = notFound('The news');
       } else {
-        const len = response.length;
-        let margin = 0;
+        const len = response.length - 1;
 
+        // margin will secure that no more than 6 news are sent to the user.
+        let margin = 0;
         if (len >= 6) {
-          margin = 6;
+          margin = len - 6;
         }
 
-        for (let i = len - 1; i > len - margin; i -= 1) {
+        for (let i = len; i > margin; i -= 1) {
           finalStr += `${response[i].eta}\n`
           + `[${response[i].message}](${response[i].link})\n`
           + '-----\n';
