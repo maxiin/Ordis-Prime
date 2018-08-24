@@ -149,11 +149,9 @@ module.exports = {
       if (response !== '') {
         finalStr = 'Alerts:\n';
 
-        let creditOrEndoOnly = true;
-
-        // todo: fix continue
         response.forEach((element) => {
-          // implement credit check
+          let creditOrEndoOnly = true;
+
           for (let x = 0; x < element.rewardTypes.length; x += 1) {
             const e = element.rewardTypes[x];
             if (e !== 'credits' || e !== 'endo') {
