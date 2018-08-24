@@ -146,30 +146,41 @@ module.exports = {
   getAlerts: (data) => {
     download('alerts', (response) => {
       let finalStr = '';
-      if (response === '') {
-        finalStr = notFound('Alerts');
-      } else {
+      if (response !== '') {
         finalStr = 'Alerts:\n';
+
+        let creditOrEndoOnly = true;
 
         // todo: fix continue
         response.forEach((element) => {
           // implement credit check
-          // for(let x = 0; x < element.rewardTypes.length; x++){
-          //     let e = element.rewardTypes[x];
-          //     if(e !== "credits" && e !== "endo"){
-          //         continue;
-          //     }
-          // }
-          const e = element;
-          finalStr += '-----\n';
-
-          if (e.mission.description) {
-            finalStr += `${e.mission.description}\n`;
+          for (let x = 0; x < element.rewardTypes.length; x += 1) {
+            const e = element.rewardTypes[x];
+            if (e !== 'credits' || e !== 'endo') {
+              creditOrEndoOnly = false;
+            }
           }
-          finalStr += `${e.mission.node} ${e.mission.minEnemyLevel} - ${e.mission.maxEnemyLevel} / ${e.mission.type} / ${e.mission.faction}\n`;
-          finalStr += `Remaining: ${e.eta}\n`;
-          finalStr += `${e.mission.reward.asString}\n`;
+
+          if (!creditOrEndoOnly) {
+            const e = element;
+            finalStr += '-----\n';
+
+            if (e.mission.description) {
+              finalStr += `${e.mission.description}\n`;
+            }
+            finalStr += `${e.mission.node} ${e.mission.minEnemyLevel} - ${e.mission.maxEnemyLevel} / ${e.mission.type} / ${e.mission.faction}\n`;
+            finalStr += `Remaining: ${e.eta}\n`;
+            finalStr += `${e.mission.reward.asString}\n`;
+          }
         });
+
+        // if the final string is alerts + newline all the alerts are credits or endo
+        // since we don't want that, we just return the "not found string"
+        if (finalStr === 'Alerts:\n') {
+          finalStr = notFound('Alerts');
+        }
+      } else {
+        finalStr = notFound('Alerts');
       }
       data.reply.text(finalStr);
     });
