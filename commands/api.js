@@ -22,7 +22,7 @@ function download(sub, func) {
       if (body !== '') {
         func(JSON.parse(body));
       } else {
-        func(body);
+        func('');
       }
     });
 
@@ -41,7 +41,7 @@ module.exports = {
     download('', (response) => {
       let finalStr;
 
-      if (response === '') {
+      if (response.toString().localeCompare('') === 0) {
         finalStr = notFound('The game time');
       } else {
         // test if the api says if isDay is true, to get the time more accurate
@@ -64,7 +64,7 @@ module.exports = {
     download('sortie', (response) => {
       let finalStr = '';
 
-      if (response === '') {
+      if (response.toString().localeCompare('') === 0) {
         finalStr = notFound('Sorties');
       } else {
         finalStr = `Time left: ${response.eta}\n`
@@ -84,7 +84,7 @@ module.exports = {
   getNews: (callback) => {
     download('news', (response) => {
       let finalStr = '';
-      if (response === '') {
+      if (response.toString().localeCompare('') === 0) {
         finalStr = notFound('The news');
       } else {
         const len = response.length - 1;
@@ -109,7 +109,7 @@ module.exports = {
     download('dailyDeals', (response) => {
       let finalStr = '';
 
-      if (response === '') {
+      if (response.toString().localeCompare('') === 0) {
         finalStr = notFound('Darvo');
       } else {
         finalStr = 'Darvo deals:\n';
@@ -189,7 +189,7 @@ module.exports = {
     download('invasions', (response) => {
       let finalStr = '';
 
-      if (response === '') {
+      if (response.toString().localeCompare('') === 0) {
         finalStr = notFound('Invasions');
       } else {
         finalStr = 'Invasions:\n';
@@ -210,7 +210,7 @@ module.exports = {
   getAcolytes: (data) => {
     download('persistentEnemies', (response) => {
       let finalStr = '';
-      if (response === '') {
+      if (response.toString().localeCompare('') === 0) {
         finalStr = notFound('Stalker Acolytes');
       } else {
         response.forEach((enemy) => {
