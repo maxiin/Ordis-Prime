@@ -1,278 +1,219 @@
-//url for the warframe api and the requirements for this archive
-var url = 'https://ws.warframestat.us/pc/';
-var http = require('https');
-let ordis = require('../ordis');
+// url for the warframe api and the requirements for this archive
+const url = 'https://ws.warframestat.us/pc/';
+const http = require('https');
+
+function notFound(where) {
+  return `There are no information about ${where} at the moment.`;
+}
+
+function download(sub, func) {
+  // http connection
+  http.get(url + sub, (res) => {
+    let body = '';
+
+    // receiving data
+    res.on('data', (chunk) => {
+      body += chunk;
+    });
+
+    // after the end of the stream
+    res.on('end', () => {
+      // calls function in the argument
+      if (body !== '') {
+        func(JSON.parse(body));
+      } else {
+        func(body);
+      }
+    });
+
+  // log an error
+  }).on('error', (e) => {
+    console.log('Got an error: ', e);
+  });
+}
 
 module.exports = {
 
-	getTime: function(data){
+  getTime: (data) => {
+    let eCycle;
+    let cCycle;
 
-        var eCycle;
-        var cCycle;
+    download('', (response) => {
+      let finalStr;
 
-        	download("",(response)=>{
+      if (response === '') {
+        finalStr = notFound('The game time');
+      } else {
+        // test if the api says if isDay is true, to get the time more accurate
+        eCycle = response.earthCycle.isDay ? 'day' : 'night';
+        cCycle = response.cetusCycle.isDay ? 'day' : 'night';
 
-                let finalStr;
+        // create the string to return and send it
+        finalStr = `Game time: ${response.timestamp}\n`
+        + `Earth' ${eCycle} will end in ${response.earthCycle.timeLeft}\n`
+        + `Cetus' ${cCycle} will end in ${response.cetusCycle.timeLeft}`;
 
-                if(response == ""){
-                    finalStr = notFound('The game time');
-                }else{
+        data.reply.text(finalStr);
+      }
+    });
+  },
 
-                    //test if the api says if isDay is true, to get the time more accurate
-                    response.earthCycle.isDay ? eCycle = 'day' : eCycle = 'night';
-                    response.cetusCycle.isDay ? cCycle = 'day' : cCycle = 'night';
+  getSortie: (data) => {
+    const levels = [' Level 50-60', ' Level 65-80', ' Level 80-100'];
 
-                    //create the string to return and send it
-                    finalStr =`Game time: ${response.timestamp}\n`+
-                                `Earth\' ${eCycle} will end in ${response.earthCycle.timeLeft}\n`+
-                                `Cetus\' ${cCycle} will end in ${response.cetusCycle.timeLeft}`;
+    download('sortie', (response) => {
+      let finalStr = '';
 
-                    data.reply.text(finalStr);
+      if (response === '') {
+        finalStr = notFound('Sorties');
+      } else {
+        finalStr = `Time left: ${response.eta}\n`
+        + `Defeat ${response.boss}'s Forces\n`;
 
-                }
-            });
+        for (let index = 0; index < 3; index += 1) {
+          finalStr += '-----\n'
+          + `${response.variants[index].node} ${levels[index]}\n`
+          + `${response.variants[index].missionType}\n`
+          + `${response.variants[index].modifier}\n`;
+        }
+      }
+      data.reply.text(finalStr);
+    });
+  },
 
-	},
+  getNews: (callback) => {
+    download('news', (response) => {
+      let finalStr = '';
+      if (response === '') {
+        finalStr = notFound('The news');
+      } else {
+        const len = response.length;
+        let margin = 0;
 
-    getSortie: function(data){
+        if (len >= 6) {
+          margin = 6;
+        }
 
-        var levels = [" Level 50-60"," Level 65-80", " Level 80-100"]
+        for (let i = len - 1; i > len - margin; i -= 1) {
+          finalStr += `${response[i].eta}\n`
+          + `[${response[i].message}](${response[i].link})\n`
+          + '-----\n';
+        }
+      }
+      callback(finalStr);
+    });
+  },
 
-        download("sortie",(response) => {
+  getDarvo: (callback) => {
+    download('dailyDeals', (response) => {
+      let finalStr = '';
 
-            let finalStr = "";
+      if (response === '') {
+        finalStr = notFound('Darvo');
+      } else {
+        finalStr = 'Darvo deals:\n';
 
-            if(response == ""){
-                finalStr = notFound('Sorties');
-            }else{
-
-                finalStr = `Time left: ${response.eta}\n`+
-                                `Defeat ${response.boss}'s Forces\n`;
-                for(let index = 0; index < 3; index++){
-                    finalStr += `-----\n`+
-                                `${response.variants[index].node} ${levels[index]}\n`+
-                                `${response.variants[index].missionType}\n`+
-                                `${response.variants[index].modifier}\n`;
-                }
-
-            }
-
-            data.reply.text(finalStr);
+        response.forEach((e) => {
+          const remaining = e.total - e.sold;
+          finalStr += `*${e.item}* for ${e.salePrice}pl, ${e.discount}% OFF\n`;
+          finalStr += `Remaining time: ${e.eta}\nRemaining on stock: ${remaining}/${e.total}`;
         });
+      }
+      callback(finalStr);
+    });
+  },
 
-    },
+  getBaro: (data) => {
+    download('voidTrader', (baro) => {
+      let finalStr = '';
 
-    getNews: function(callback){
-        
-        download("news",(response) => {
+      if (baro === '') {
+        finalStr = notFound('The void trader');
+      } else if (baro.active === true) {
+        finalStr = `${baro.character} will be at ${baro.location} for ${baro.endString}\n-----\n`;
 
-            let finalStr = "";
+        for (let x = 0; x < baro.inventory.length; x += 1) {
+          const inv = baro.inventory[x];
+          finalStr += `${inv.item} | dc-${inv.ducats} cr-${inv.credits}\n`;
+        }
+      } else {
+        finalStr = `${baro.character} will arrive in ${baro.startString} at ${baro.location}`;
+      }
+      data.reply.text(finalStr);
+    });
+  },
 
-            if(response == ""){
-                finalStr = notFound('The news');
-            }else{
+  getAlerts: (data) => {
+    download('alerts', (response) => {
+      let finalStr = '';
+      if (response === '') {
+        finalStr = notFound('Alerts');
+      } else {
+        finalStr = 'Alerts:\n';
 
-                var len = response.length;
-                var margin = 0
-                if(len >=6){
-                    margin = 6
-                }
+        // todo: fix continue
+        response.forEach((element) => {
+          // implement credit check
+          // for(let x = 0; x < element.rewardTypes.length; x++){
+          //     let e = element.rewardTypes[x];
+          //     if(e !== "credits" && e !== "endo"){
+          //         continue;
+          //     }
+          // }
+          const e = element;
+          finalStr += '-----\n';
 
-                for(let i = len-1; i > len-margin; i--){
-                    finalStr += `${response[i].eta}\n`+
-                                `[${response[i].message}](${response[i].link})\n`+
-                                `-----\n`;
-                }
-
-            }
-
-            callback(finalStr);
+          if (e.mission.description) {
+            finalStr += `${e.mission.description}\n`;
+          }
+          finalStr += `${e.mission.node} ${e.mission.minEnemyLevel} - ${e.mission.maxEnemyLevel} / ${e.mission.type} / ${e.mission.faction}\n`;
+          finalStr += `Remaining: ${e.eta}\n`;
+          finalStr += `${e.mission.reward.asString}\n`;
         });
+      }
+      data.reply.text(finalStr);
+    });
+  },
 
-    },
+  getInvasion: (data) => {
+    download('invasions', (response) => {
+      let finalStr = '';
 
-    getDarvo: function(callback){
-        
-        download("dailyDeals",(response) => {
+      if (response === '') {
+        finalStr = notFound('Invasions');
+      } else {
+        finalStr = 'Invasions:\n';
 
-            let finalStr = "";
+        for (let x = 0; x < response.length; x += 1) {
+          if (response[x].completion >= 0 || !response[x].eta.startsWith('-')) {
+            finalStr += '-----\n';
+            finalStr += `${response[x].node} ${Math.floor(response[x].completion)}%\n`;
+            const isInfested = response[x].attackerReward.asString === '' ? '' : `(${response[x].attackerReward.asString})`;
+            finalStr += `${response[x].attackingFaction}${isInfested} vs ${response[x].defendingFaction}(${response[x].defenderReward.asString})\n`;
+          }
+        }
+      }
+      data.reply.text(finalStr);
+    });
+  },
 
-            if(response == ""){
-                finalStr = notFound('Darvo');
-            }else{
-
-                finalStr = "Darvo deals:\n";
-                
-                response.forEach(e => {
-                    var remaining = e.total - e.sold;
-                    finalStr += `*${e.item}* for ${e.salePrice}pl, ${e.discount}% OFF\n`;
-                    finalStr += `Remaining time: ${e.eta}\nRemaining on stock: ${remaining}/${e.total}`;
-                });
-
-            }
-
-            callback(finalStr);
-            
+  getAcolytes: (data) => {
+    download('persistentEnemies', (response) => {
+      let finalStr = '';
+      if (response === '') {
+        finalStr = notFound('Stalker Acolytes');
+      } else {
+        response.forEach((enemy) => {
+          const health = Math.floor(enemy.healthPercent * 100);
+          if (enemy.isDiscovered) {
+            finalStr += `${enemy.agentType} was found at ${enemy.lastDiscoveredAt} and has ${health}% health remaining.\n`;
+          } else {
+            finalStr += `${enemy.agentType} *has ${health}% health remaining and was not found yet.\n`;
+          }
+          finalStr += '-----\n';
         });
-
-    },
-
-    getBaro: function(data){
-
-        download("voidTrader",(baro) => {
-
-            let finalStr = "";
-
-            if(baro == ""){
-                finalStr = notFound('The void trader');
-            }else{
-
-                if(baro.active){
-                    finalStr = `${baro.character} will be at ${baro.location} for ${baro.endString}\n-----\n`
-                    for(let x = 0; x < baro.inventory.length; x++){
-                        let inv = baro.inventory[x];
-                        finalStr += `${inv.item} | dc-${inv.ducats} cr-${inv.credits}\n`
-                    }
-                }else{
-                    finalStr = `${baro.character} will arrive in ${baro.startString} at ${baro.location}`
-                }
-            }
-
-            data.reply.text(finalStr);
-        });
-
-    },
-
-    getAlerts: function(data){
-
-        download("alerts",(response) => {
-
-            let finalStr = "";
-
-            if(response == ""){
-                finalStr = notFound('Alerts');
-            }else{
-
-                finalStr = "Alerts:\n";
-
-                //todo: fix continue
-                response.forEach(element => {
-                    // implement credit check
-                    // for(let x = 0; x < element.rewardTypes.length; x++){
-                    //     let e = element.rewardTypes[x];
-                    //     if(e !== "credits" && e !== "endo"){
-                    //         continue;
-                    //     }
-                    // }
-                    let e = element;
-                    finalStr += `-----\n`;
-                    if(e.mission.description){
-                        finalStr += `${e.mission.description}\n`;
-                    }
-                    finalStr += `${e.mission.node} ${e.mission.minEnemyLevel} - ${e.mission.maxEnemyLevel} / ${e.mission.type} / ${e.mission.faction}\n`;
-                    finalStr += `Remaining: ${e.eta}\n`
-                    finalStr += `${e.mission.reward.asString}\n`;
-                });
-
-            }
-
-            data.reply.text(finalStr);
-
-        });
-
-    },
-
-    getInvasion: function(data){
-
-        download("invasions",(response) => {
-
-            let finalStr = "";
-
-            if(response == ""){
-                finalStr = notFound('Invasions');
-            }else{
-
-                finalStr = "Invasions:\n";
-
-                for(let x = 0; x < response.length; x++){
-                    if(response[x].completion < 0 || response[x].eta.startsWith("-")){
-                        continue;
-                    }
-                    finalStr += `-----\n`;
-                    finalStr += `${response[x].node} ${Math.floor(response[x].completion)}%\n`;
-                    var isInfested = response[x].attackerReward.asString === "" ? "" : `(${response[x].attackerReward.asString})`
-                    finalStr += `${response[x].attackingFaction}${isInfested} vs ${response[x].defendingFaction}(${response[x].defenderReward.asString})\n`
-                }
-
-            }
-
-            data.reply.text(finalStr);
-
-        });
-
-    },
-
-    getAcolytes: function(data){
-
-        download("persistentEnemies",(response) => {
-
-            let finalStr = "";
-
-            if(response == ""){
-                finalStr = notFound('Stalker Acolytes');
-            }else{
-
-                response.forEach((enemy) => {
-
-                    let health = Math.floor(enemy.healthPercent * 100);
-
-                    if(enemy.isDiscovered){
-                        finalStr += `${enemy.agentType} was found at ${enemy.lastDiscoveredAt} and has ${health}% health remaining.\n`
-                    }else{
-                        finalStr += `${enemy.agentType} *has ${health}% health remaining and was not found yet.\n`
-                    }
-
-                    finalStr += "-----\n";
-
-                });
-            }
-
-            data.reply.text(finalStr);
-
-        });
-    }
-
-}
-
-function notFound(where){
-    return `There are no information about ${where} at the moment.`
-}
-
-function download(sub,func){
-    //http connection
-		http.get(url + sub, function(res){
-            console.log(url + sub);
-    		var body = '';
-
-            //receiving data
-            res.on('data', function(chunk){
-                body += chunk;
-            })
-
-            //after the end of the stream
-            res.on('end', function(){
-                //calls function in the argument
-                if(body != ''){
-                    func(JSON.parse(body));
-                }else{
-                    func(body);
-                }
-                  
-            });
-
-        //log an error
-		}).on('error', function(e){
-      		console.log("Got an error: ", e);
-        });
-        
-}
+      }
+      data.reply.text(finalStr);
+    });
+  },
+};
