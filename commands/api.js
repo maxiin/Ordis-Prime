@@ -34,9 +34,11 @@ function download(sub, func) {
 
 function dateFormater(timestamp) {
   const date = new Date(Date.parse(timestamp));
+  console.log(date.getUTCHours());
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dec'];
   const week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} UTC+0, ${week[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()} ${date.getFullYear()}`;
+
+  return `${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()} UTC+0, ${week[date.getUTCDay()]}, ${months[date.getUTCMonth()]} ${date.getUTCDate()} ${date.getUTCFullYear()}`;
 }
 
 module.exports = {
@@ -138,14 +140,14 @@ module.exports = {
       if (baro === '') {
         finalStr = notFound('The void trader');
       } else if (baro.active === true) {
-        finalStr = `${baro.character} will be at ${baro.location} for ${baro.endString}\n-----\n`;
+        finalStr = `${baro.character} will be at ${baro.location} for ${baro.endString} until ${dateFormater(baro.expiry)}\n-----\n`;
 
         for (let x = 0; x < baro.inventory.length; x += 1) {
           const inv = baro.inventory[x];
           finalStr += `${inv.item} | dc-${inv.ducats} cr-${inv.credits}\n`;
         }
       } else {
-        finalStr = `${baro.character} will arrive in ${baro.startString} at ${baro.location}`;
+        finalStr = `${baro.character} will arrive in ${baro.startString}, ${dateFormater(baro.activation)} at ${baro.location}`;
       }
       data.reply.text(finalStr);
     });
