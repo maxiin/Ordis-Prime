@@ -32,6 +32,13 @@ function download(sub, func) {
   });
 }
 
+function dateFormater(timestamp) {
+  const date = new Date(Date.parse(timestamp));
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} UTC+0, ${week[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()} ${date.getFullYear()}`;
+}
+
 module.exports = {
 
   getTime: (data) => {
@@ -49,7 +56,7 @@ module.exports = {
         cCycle = response.cetusCycle.isDay ? 'day' : 'night';
 
         // create the string to return and send it
-        finalStr = `Game time: ${response.timestamp}\n`
+        finalStr = `Game time: ${dateFormater(response.timestamp)}\n\n`
         + `Earth' ${eCycle} will end in ${response.earthCycle.timeLeft}\n`
         + `Cetus' ${cCycle} will end in ${response.cetusCycle.timeLeft}`;
 
