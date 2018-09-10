@@ -24,3 +24,6 @@ It can be acessed with [this link](https://t.me/ordis_prime_bot) or sending a me
 - darvo - Get Darvo's current deal.
 - wiki - Makes a search on Warframe's wiki page.
 - acolytes - Shows if the Acolytes are on the game.
+
+# Contributing
+For contributions please see the [Contributing page](./CONTRIBUTING.md)
