@@ -1,7 +1,11 @@
 # Ordis-Prime
 First off, thank you for considering contributing!
 
-This is a telegram bot, for testing you can create a bot with @botfather and use your API key.
+This is a telegram bot, for testing you can create a bot with [@botfather](https://telegram.me/botfather) and use your API key.
+
+To connect with telegram API we use the dependency [telebot](https://github.com/mullwar/telebot).
+
+If you want to know more about telegram bots please see their [documentation](https://core.telegram.org/bots).
 
 We use the [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript) and npm will install eslint and set its configuration.
 
