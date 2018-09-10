@@ -76,7 +76,7 @@ module.exports = {
     download('commandApiTag', (response) => { // call to the download function, to connect with the api
       let finalStr = ''; // use the finalStr variable to return the message if needed
 
-      // use the response data as you like, it will be returned as a json.
+      // use the response data as you like, you will receive as a json.
 
       data.reply.text(finalStr); // this is the function that will send the text to the user
       }
