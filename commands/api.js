@@ -34,7 +34,6 @@ function download(sub, func) {
 
 function dateFormater(timestamp) {
   const date = new Date(Date.parse(timestamp));
-  console.log(date.getUTCHours());
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dec'];
   const week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 

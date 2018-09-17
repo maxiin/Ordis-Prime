@@ -10,7 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "jquery": "^3.3.1",
-    "telebot": "^1.2.6"
+    "telebot": "^1.2.6",
+    "telegraf": "^3.23.1"
   },
   "devDependencies": {
     "eslint": "^5.6.0",
