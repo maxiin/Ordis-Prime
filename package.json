@@ -1,6 +1,6 @@
 {
   "name": "ordis-prime",
-  "version": "1.0.0",
+  "version": "2.1.1",
   "description": "a warframe help cephalon, for telegram",
   "main": "ordis.js",
   "scripts": {
