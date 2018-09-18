@@ -3,6 +3,7 @@
 [![Version](https://img.shields.io/badge/Version-3.0.2-03A9F4.svg?style=for-the-badge)](./ordis.js)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](.LICENSE.md)
 [![Telegram link](https://img.shields.io/badge/Telegram-bot%20link-blue.svg?style=for-the-badge)](https://t.me/ordis_prime_bot)
+[![Keep me up!](https://img.shields.io/badge/Donations-blue.svg?style=for-the-badge)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=5WX7AGGS5NV7J&lc=BR&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted)
 
 Ordis prime is a [Telegram](https://telegram.org/) bot that can help players in the game [Warframe](https://www.warframe.com/).
 It can be acessed with [this link](https://t.me/ordis_prime_bot) or sending a message to @ordis_prime_bot in the app.
