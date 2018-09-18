@@ -33,28 +33,16 @@ Before anything, you need to have a command name and add it in the [main file](.
 #### Names that you will need to change
 - **CommandName** / **commandName** - the name that you created for it
 - **commandApiTag** - tag that you might need from warframe API
+- **Extras** - any extras in the msg formatting that you would need, see [this](https://telegraf.js.org/#/?id=extra)
 
 Template:
 ```javascript
-bot.on('text', (data) => {
 
-  ...
-  
-  // if is a warframe API based command and you don't need markdown:
-  if (data.text.startsWith('/commandName')) {
-    api.getCommandName(data); // this function will be created in the api file, see below.
-  }
-  
-  // if is a warframe API based command and you need markdown:
-  if (data.text.startsWith('/commandName')) {
-      api.getCommandName((m) => {
-        bot.sendMessage(data.chat.id, m, { parseMode: 'Markdown', webPreview: false });
-      });
-  }
+// using markdown
+bot.command('commandName', ctx => api.getCommandName(msg => ctx.replyWithMarkdown(msg, [Extras])));
+// simple msg
+bot.command('commandName', ctx => api.getCommandName(msg => ctx.reply(msg)));
 
-  ...
-
-});
 ```
 Commands that use the warframe API are editable and can be added in the [api.js file](./commands/api.js)
 
@@ -71,21 +59,6 @@ module.exports = {
 
   ...
 
-  // if you don't need markdown
-  getCommandName: (data) => {
-    download('commandApiTag', (response) => { // call to the download function, to connect with the api
-      let finalStr = ''; // use the finalStr variable to return the message if needed
-
-      // use the response data as you like, you will receive as a json.
-
-      data.reply.text(finalStr); // this is the function that will send the text to the user
-      }
-    });
-  }
-  
-  // if you need markdown
-  // since we built a callback instead of sending the bot data we can't just send the message from here
-  // so the text will be returned to the callback in ordis.js
   getCommandName: (callback) => { 
     download('commandApiTag', (response) => {
       let finalStr = '';
