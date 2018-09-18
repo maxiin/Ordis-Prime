@@ -42,7 +42,7 @@ function dateFormater(timestamp) {
 
 module.exports = {
 
-  getTime: (data) => {
+  getTime: (callback) => {
     let eCycle;
     let cCycle;
 
@@ -61,12 +61,12 @@ module.exports = {
         + `Earth' ${eCycle} will end in ${response.earthCycle.timeLeft}\n`
         + `Cetus' ${cCycle} will end in ${response.cetusCycle.timeLeft}`;
 
-        data.reply.text(finalStr);
+        callback(finalStr);
       }
     });
   },
 
-  getSortie: (data) => {
+  getSortie: (callback) => {
     const levels = [' Level 50-60', ' Level 65-80', ' Level 80-100'];
 
     download('sortie', (response) => {
@@ -85,7 +85,7 @@ module.exports = {
           + `${response.variants[index].modifier}\n`;
         }
       }
-      data.reply.text(finalStr);
+      callback(finalStr);
     });
   },
 
@@ -132,27 +132,27 @@ module.exports = {
     });
   },
 
-  getBaro: (data) => {
-    download('voidTrader', (baro) => {
+  getBaro: (callback) => {
+    download('voidTrader', (response) => {
       let finalStr = '';
 
-      if (baro === '') {
+      if (response === '') {
         finalStr = notFound('The void trader');
-      } else if (baro.active === true) {
-        finalStr = `${baro.character} will be at ${baro.location} for ${baro.endString} until ${dateFormater(baro.expiry)}\n-----\n`;
+      } else if (response.active === true) {
+        finalStr = `${response.character} will be at ${response.location} for ${response.endString} until ${dateFormater(response.expiry)}\n-----\n`;
 
-        for (let x = 0; x < baro.inventory.length; x += 1) {
-          const inv = baro.inventory[x];
+        for (let x = 0; x < response.inventory.length; x += 1) {
+          const inv = response.inventory[x];
           finalStr += `${inv.item} | dc-${inv.ducats} cr-${inv.credits}\n`;
         }
       } else {
-        finalStr = `${baro.character} will arrive in ${baro.startString}, ${dateFormater(baro.activation)} at ${baro.location}`;
+        finalStr = `${response.character} will arrive in ${response.startString}, ${dateFormater(response.activation)} at ${response.location}`;
       }
-      data.reply.text(finalStr);
+      callback(finalStr);
     });
   },
 
-  getAlerts: (data) => {
+  getAlerts: (callback) => {
     download('alerts', (response) => {
       let finalStr = '';
       if (response !== '') {
@@ -189,11 +189,11 @@ module.exports = {
       } else {
         finalStr = notFound('Alerts');
       }
-      data.reply.text(finalStr);
+      callback(finalStr);
     });
   },
 
-  getInvasion: (data) => {
+  getInvasion: (callback) => {
     download('invasions', (response) => {
       let finalStr = '';
 
@@ -211,11 +211,11 @@ module.exports = {
           }
         }
       }
-      data.reply.text(finalStr);
+      callback(finalStr);
     });
   },
 
-  getAcolytes: (data) => {
+  getAcolytes: (callback) => {
     download('persistentEnemies', (response) => {
       let finalStr = '';
       if (response.toString().localeCompare('') === 0) {
@@ -231,7 +231,7 @@ module.exports = {
           finalStr += '-----\n';
         });
       }
-      data.reply.text(finalStr);
+      callback(finalStr);
     });
   },
 };

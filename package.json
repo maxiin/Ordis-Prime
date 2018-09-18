@@ -1,6 +1,6 @@
 {
   "name": "ordis-prime",
-  "version": "2.1.1",
+  "version": "3.0.2",
   "description": "a warframe help cephalon, for telegram",
   "main": "ordis.js",
   "scripts": {
@@ -10,7 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "jquery": "^3.3.1",
-    "telebot": "^1.2.6",
     "telegraf": "^3.23.1"
   },
   "devDependencies": {

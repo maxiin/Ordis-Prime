@@ -5,7 +5,8 @@ function tenno() {
 // exporting the function so the main part of the bot can call it
 module.exports = {
 
-  test: (data) => {
+  test: (msg) => {
+    const data = msg.toLowerCase();
     // this is for testing where the weapon name will start
     let startingPoint;
 

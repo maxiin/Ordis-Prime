@@ -1,6 +1,6 @@
 # Ordis-Prime
 [![Style: Airbnb](https://img.shields.io/badge/Code_style-Airbnb-FF5A5F.svg?style=for-the-badge)](https://github.com/airbnb/javascript)
-[![Version](https://img.shields.io/badge/Version-2.1.1-03A9F4.svg?style=for-the-badge)](./ordis.js)
+[![Version](https://img.shields.io/badge/Version-3.0.2-03A9F4.svg?style=for-the-badge)](./ordis.js)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](.LICENSE.md)
 [![Telegram link](https://img.shields.io/badge/Telegram-bot%20link-blue.svg?style=for-the-badge)](https://t.me/ordis_prime_bot)
 
