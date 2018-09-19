@@ -1,5 +1,5 @@
 # Ordis-Prime
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/e3fb9a4a0e2c4facbc992376f1fe0876)](https://app.codacy.com/app/MaxTgr/Ordis-Prime?utm_source=github.com&utm_medium=referral&utm_content=MaxTgr/Ordis-Prime&utm_campaign=Badge_Grade_Dashboard)
+[![Codacy Badge](https://img.shields.io/badge/Code_quality-A-green.svg?style=for-the-badge)](https://app.codacy.com/app/MaxTgr/Ordis-Prime?utm_source=github.com&utm_medium=referral&utm_content=MaxTgr/Ordis-Prime&utm_campaign=Badge_Grade_Dashboard)
 [![Style: Airbnb](https://img.shields.io/badge/Code_style-Airbnb-FF5A5F.svg?style=for-the-badge)](https://github.com/airbnb/javascript)
 [![Version](https://img.shields.io/badge/Version-3.0.2-03A9F4.svg?style=for-the-badge)](./ordis.js)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](.LICENSE.md)
