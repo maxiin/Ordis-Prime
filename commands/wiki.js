@@ -42,7 +42,7 @@ function capitalizeFirstLetter(string) {
 }
 
 function tenno() {
-  return greetings.charAt(Math.floor(Math.random() * greetings.length))
+  return greetings[(Math.floor(Math.random() * greetings.length))]
 }
 
 module.exports = {

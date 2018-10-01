@@ -4,7 +4,7 @@ const isCompGroupSize = 24
 const greetings = ['Operator', 'Star-Child']
 
 function tenno() {
-  return greetings.charAt(Math.floor(Math.random() * greetings.length))
+  return greetings[(Math.floor(Math.random() * greetings.length))]
 }
 
 // exporting the function so the main part of the bot can call it

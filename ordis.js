@@ -1,6 +1,7 @@
 const Telegraf = require('telegraf')
 const Extra = require('telegraf/extra')
 
+
 // sending the telegram custom key for controlling the bot
 const bot = new Telegraf(process.env.TELEGRAM_KEY)
 
@@ -13,7 +14,7 @@ const wiki = require('./commands/wiki')
 const greetings = ['Operator', 'Star-Child']
 
 function tenno() {
-  return greetings.charAt(Math.floor(Math.random() * greetings.length))
+  return greetings[(Math.floor(Math.random() * greetings.length))]
 }
 
 bot.start((ctx) => ctx.reply(`Hello! I am Ordis, ship cephalon, how can I help you, ${tenno()}?\nFor a list of commands or what each command can do, please use /help`))
