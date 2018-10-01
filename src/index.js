@@ -6,9 +6,9 @@ const Extra = require('telegraf/extra')
 const bot = new Telegraf(process.env.TELEGRAM_KEY)
 
 // including the other file to controll the commands
-const iscomponent = require('./commands/iscomponent')
-const api = require('./commands/api')
-const wiki = require('./commands/wiki')
+const iscomponent = require('./handlers/iscomponent/index')
+const api = require('./handlers/api/index')
+const wiki = require('./handlers/wiki/index')
 
 
 const greetings = ['Operator', 'Star-Child']

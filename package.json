@@ -1,10 +1,10 @@
 {
   "name": "ordis-prime",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "a warframe help cephalon, for telegram",
   "main": "ordis.js",
   "scripts": {
-    "start": "node ordis.js",
+    "start": "node src/index.js",
     "test": "eslint src lib bin"
   },
   "author": "Max Sylver",
