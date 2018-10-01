@@ -1,237 +1,262 @@
 // url for the warframe api and the requirements for this archive
-const url = 'https://ws.warframestat.us/pc/';
-const http = require('https');
+const url = 'https://ws.warframestat.us/pc/'
+const http = require('https')
+
 
 function notFound(where) {
-  return `There are no information about ${where} at the moment.`;
+  return `There are no information about ${where} at the moment.`
 }
 
 function download(sub, func) {
   // http connection
   http.get(url + sub, (res) => {
-    let body = '';
+    let body = ''
 
     // receiving data
     res.on('data', (chunk) => {
-      body += chunk;
-    });
+      body += chunk
+    })
 
     // after the end of the stream
     res.on('end', () => {
       // calls function in the argument
       if (body !== '') {
-        func(JSON.parse(body));
-      } else {
-        func('');
+        func(JSON.parse(body))
       }
-    });
+      else {
+        func('')
+      }
+    })
 
   // log an error
   }).on('error', (e) => {
-    console.log('Got an error: ', e);
-  });
+    console.log('Got an error: ', e)
+  })
 }
 
 function dateFormater(timestamp) {
-  const date = new Date(Date.parse(timestamp));
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const date = new Date(Date.parse(timestamp))
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dec']
+  const week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
-  return `${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()} UTC+0, ${week[date.getUTCDay()]}, ${months[date.getUTCMonth()]} ${date.getUTCDate()} ${date.getUTCFullYear()}`;
+  return `${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()} UTC+0, ${week[date.getUTCDay()]}, ${months[date.getUTCMonth()]} ${date.getUTCDate()} ${date.getUTCFullYear()}`
 }
 
 module.exports = {
 
   getTime: (callback) => {
-    let eCycle;
-    let cCycle;
+    let eCycle
+    let cCycle
 
     download('', (response) => {
-      let finalStr;
+      let finalStr
 
       if (response.toString().localeCompare('') === 0) {
-        finalStr = notFound('The game time');
-      } else {
+        finalStr = notFound('The game time')
+      }
+      else {
         // test if the api says if isDay is true, to get the time more accurate
-        eCycle = response.earthCycle.isDay ? 'day' : 'night';
-        cCycle = response.cetusCycle.isDay ? 'day' : 'night';
+        eCycle = response.earthCycle.isDay ? 'day' : 'night'
+        cCycle = response.cetusCycle.isDay ? 'day' : 'night'
 
         // create the string to return and send it
         finalStr = `Game time: ${dateFormater(response.timestamp)}\n\n`
         + `Earth' ${eCycle} will end in ${response.earthCycle.timeLeft}\n`
-        + `Cetus' ${cCycle} will end in ${response.cetusCycle.timeLeft}`;
+        + `Cetus' ${cCycle} will end in ${response.cetusCycle.timeLeft}`
 
-        callback(finalStr);
+        callback(finalStr)
       }
-    });
+    })
   },
 
   getSortie: (callback) => {
-    const levels = [' Level 50-60', ' Level 65-80', ' Level 80-100'];
+    const levels = [' Level 50-60', ' Level 65-80', ' Level 80-100']
+    const numberOfMissions = 3
 
     download('sortie', (response) => {
-      let finalStr = '';
+      let finalStr = ''
 
       if (response.toString().localeCompare('') === 0) {
-        finalStr = notFound('Sorties');
-      } else {
+        finalStr = notFound('Sorties')
+      }
+      else {
         finalStr = `Time left: ${response.eta}\n`
-        + `Defeat ${response.boss}'s Forces\n`;
+        + `Defeat ${response.boss}'s Forces\n`
 
-        for (let index = 0; index < 3; index += 1) {
+        for (let index = 0; index < numberOfMissions; index += 1) {
           finalStr += '-----\n'
           + `${response.variants[index].node} ${levels[index]}\n`
           + `${response.variants[index].missionType}\n`
-          + `${response.variants[index].modifier}\n`;
+          + `${response.variants[index].modifier}\n`
         }
       }
-      callback(finalStr);
-    });
+      callback(finalStr)
+    })
   },
 
   getNews: (callback) => {
+    const newsLimit = 6
+
     download('news', (response) => {
-      let finalStr = '';
+      let finalStr = ''
+
       if (response.toString().localeCompare('') === 0) {
-        finalStr = notFound('The news');
-      } else {
-        const len = response.length - 1;
+        finalStr = notFound('The news')
+      }
+      else {
+        const len = response.length - 1
 
         // margin will secure that no more than 6 news are sent to the user.
-        let margin = 0;
-        if (len >= 6) {
-          margin = len - 6;
+        let margin = 0
+
+        if (len >= newsLimit) {
+          margin = len - newsLimit
         }
 
-        for (let i = len; i > margin; i -= 1) {
-          finalStr += `${response[i].eta}\n`
-          + `[${response[i].message}](${response[i].link})\n`
-          + '-----\n';
+        for (let index = len; index > margin; index -= 1) {
+          finalStr += `${response[index].eta}\n`
+          + `[${response[index].message}](${response[index].link})\n`
+          + '-----\n'
         }
       }
-      callback(finalStr);
-    });
+      callback(finalStr)
+    })
   },
 
   getDarvo: (callback) => {
     download('dailyDeals', (response) => {
-      let finalStr = '';
+      let finalStr = ''
 
       if (response.toString().localeCompare('') === 0) {
-        finalStr = notFound('Darvo');
-      } else {
-        finalStr = 'Darvo deals:\n';
+        finalStr = notFound('Darvo')
+      }
+      else {
+        finalStr = 'Darvo deals:\n'
 
         response.forEach((e) => {
-          const remaining = e.total - e.sold;
-          finalStr += `*${e.item}* for ${e.salePrice}pl, ${e.discount}% OFF\n`;
-          finalStr += `Remaining time: ${e.eta}\nRemaining on stock: ${remaining}/${e.total}`;
-        });
+          const remaining = e.total - e.sold
+
+          finalStr += `*${e.item}* for ${e.salePrice}pl, ${e.discount}% OFF\n`
+          finalStr += `Remaining time: ${e.eta}\nRemaining on stock: ${remaining}/${e.total}`
+        })
       }
-      callback(finalStr);
-    });
+      callback(finalStr)
+    })
   },
 
   getBaro: (callback) => {
     download('voidTrader', (response) => {
-      let finalStr = '';
+      let finalStr = ''
 
       if (response === '') {
-        finalStr = notFound('The void trader');
-      } else if (response.active === true) {
-        finalStr = `${response.character} will be at ${response.location} for ${response.endString} until ${dateFormater(response.expiry)}\n-----\n`;
-
-        for (let x = 0; x < response.inventory.length; x += 1) {
-          const inv = response.inventory[x];
-          finalStr += `${inv.item} | dc-${inv.ducats} cr-${inv.credits}\n`;
-        }
-      } else {
-        finalStr = `${response.character} will arrive in ${response.startString}, ${dateFormater(response.activation)} at ${response.location}`;
+        finalStr = notFound('The void trader')
       }
-      callback(finalStr);
-    });
+      else if (response.active === true) {
+        finalStr = `${response.character} will be at ${response.location} for ${response.endString} until ${dateFormater(response.expiry)}\n-----\n`
+
+        for (let index = 0; index < response.inventory.length; index += 1) {
+          const inv = response.inventory[index]
+
+          finalStr += `${inv.item} | dc-${inv.ducats} cr-${inv.credits}\n`
+        }
+      }
+      else {
+        finalStr = `${response.character} will arrive in ${response.startString}, ${dateFormater(response.activation)} at ${response.location}`
+      }
+      callback(finalStr)
+    })
   },
 
   getAlerts: (callback) => {
     download('alerts', (response) => {
-      let finalStr = '';
+      let finalStr = ''
+
       if (response !== '') {
-        finalStr = 'Alerts:\n';
+        finalStr = 'Alerts:\n'
 
         response.forEach((element) => {
-          let creditOrEndoOnly = false;
+          let creditOrEndoOnly = false
 
-          for (let x = 0; x < element.rewardTypes.length; x += 1) {
-            const e = element.rewardTypes[x];
-            if (e === 'credits' || e === 'endo') {
-              creditOrEndoOnly = true;
+          for (let index = 0; index < element.rewardTypes.length; index += 1) {
+            const types = element.rewardTypes[index]
+
+            if (types === 'credits' || types === 'endo') {
+              creditOrEndoOnly = true
             }
           }
 
           if (!creditOrEndoOnly) {
-            const e = element;
-            finalStr += '-----\n';
+            finalStr += '-----\n'
 
-            if (e.mission.description) {
-              finalStr += `${e.mission.description}\n`;
+            if (element.mission.description) {
+              finalStr += `${element.mission.description}\n`
             }
-            finalStr += `${e.mission.node} ${e.mission.minEnemyLevel} - ${e.mission.maxEnemyLevel} / ${e.mission.type} / ${e.mission.faction}\n`;
-            finalStr += `Remaining: ${e.eta}\n`;
-            finalStr += `${e.mission.reward.asString}\n`;
+            finalStr += `${element.mission.node} ${element.mission.minEnemyLevel} - ${element.mission.maxEnemyLevel} / ${element.mission.type} / ${element.mission.faction}\n`
+            finalStr += `Remaining: ${element.eta}\n`
+            finalStr += `${element.mission.reward.asString}\n`
           }
-        });
+        })
 
         // if the final string is alerts + newline all the alerts are credits or endo
         // since we don't want that, we just return the "not found string"
         if (finalStr === 'Alerts:\n') {
-          finalStr = notFound('Alerts');
+          finalStr = notFound('Alerts')
         }
-      } else {
-        finalStr = notFound('Alerts');
       }
-      callback(finalStr);
-    });
+      else {
+        finalStr = notFound('Alerts')
+      }
+      callback(finalStr)
+    })
   },
 
   getInvasion: (callback) => {
     download('invasions', (response) => {
-      let finalStr = '';
+      let finalStr = ''
 
       if (response.toString().localeCompare('') === 0) {
-        finalStr = notFound('Invasions');
-      } else {
-        finalStr = 'Invasions:\n';
+        finalStr = notFound('Invasions')
+      }
+      else {
+        finalStr = 'Invasions:\n'
 
-        for (let x = 0; x < response.length; x += 1) {
-          if (response[x].completion >= 0 || !response[x].eta.startsWith('-')) {
-            finalStr += '-----\n';
-            finalStr += `${response[x].node} ${Math.floor(response[x].completion)}%\n`;
-            const isInfested = response[x].attackerReward.asString === '' ? '' : `(${response[x].attackerReward.asString})`;
-            finalStr += `${response[x].attackingFaction}${isInfested} vs ${response[x].defendingFaction}(${response[x].defenderReward.asString})\n`;
+        for (let index = 0; index < response.length; index += 1) {
+          if (response[index].completion >= 0 || !response[index].eta.startsWith('-')) {
+            finalStr += '-----\n'
+            finalStr += `${response[index].node} ${Math.floor(response[index].completion)}%\n`
+            const isInfested = response[index].attackerReward.asString === '' ? '' : `(${response[index].attackerReward.asString})`
+
+            finalStr += `${response[index].attackingFaction}${isInfested} vs ${response[index].defendingFaction}(${response[index].defenderReward.asString})\n`
           }
         }
       }
-      callback(finalStr);
-    });
+      callback(finalStr)
+    })
   },
 
   getAcolytes: (callback) => {
+    const enemyHealth = 100
+
     download('persistentEnemies', (response) => {
-      let finalStr = '';
+      let finalStr = ''
+
       if (response.toString().localeCompare('') === 0) {
-        finalStr = notFound('Stalker Acolytes');
-      } else {
-        response.forEach((enemy) => {
-          const health = Math.floor(enemy.healthPercent * 100);
-          if (enemy.isDiscovered) {
-            finalStr += `${enemy.agentType} was found at ${enemy.lastDiscoveredAt} and has ${health}% health remaining.\n`;
-          } else {
-            finalStr += `${enemy.agentType} *has ${health}% health remaining and was not found yet.\n`;
-          }
-          finalStr += '-----\n';
-        });
+        finalStr = notFound('Stalker Acolytes')
       }
-      callback(finalStr);
-    });
+      else {
+        response.forEach((enemy) => {
+          const health = Math.floor(enemy.healthPercent * enemyHealth)
+
+          if (enemy.isDiscovered) {
+            finalStr += `${enemy.agentType} was found at ${enemy.lastDiscoveredAt} and has ${health}% health remaining.\n`
+          }
+          else {
+            finalStr += `${enemy.agentType} *has ${health}% health remaining and was not found yet.\n`
+          }
+          finalStr += '-----\n'
+        })
+      }
+      callback(finalStr)
+    })
   },
-};
+}
