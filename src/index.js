@@ -6,18 +6,13 @@ const Extra = require('telegraf/extra')
 const bot = new Telegraf(process.env.TELEGRAM_KEY)
 
 // including the other file to controll the commands
+const util = require('./helpers/index')
 const iscomponent = require('./handlers/iscomponent/index')
 const api = require('./handlers/api/index')
 const wiki = require('./handlers/wiki/index')
 
 
-const greetings = ['Operator', 'Star-Child']
-
-function tenno() {
-  return greetings[(Math.floor(Math.random() * greetings.length))]
-}
-
-bot.start((ctx) => ctx.reply(`Hello! I am Ordis, ship cephalon, how can I help you, ${tenno()}?\nFor a list of commands or what each command can do, please use /help`))
+bot.start((ctx) => ctx.reply(`Hello! I am Ordis, ship cephalon, how can I help you, ${util.greet()}?\nFor a list of commands or what each command can do, please use /help`))
 
 bot.command('help', (ctx) => {
   ctx.replyWithMarkdown('Here\'s the list of my commands\n/iscomp - Check if a certain weapon is a crafting component for another one. Usage - */iscomp weapon_name*\n'

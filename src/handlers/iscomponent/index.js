@@ -1,11 +1,8 @@
+const util = require('../../helpers/index')
+
+
 const isCompSize = 8
 const isCompGroupSize = 24
-
-const greetings = ['Operator', 'Star-Child']
-
-function tenno() {
-  return greetings[(Math.floor(Math.random() * greetings.length))]
-}
 
 // exporting the function so the main part of the bot can call it
 module.exports = {
@@ -117,7 +114,7 @@ module.exports = {
       case 'ninkondi':
         return '[Ninkondi](http://warframe.wikia.com/wiki/Ninkondi) is crafting component for the [Shaku](http://warframe.wikia.com/wiki/Shaku)'
       default:
-        return `Ordis didn't find anything, ${tenno()}. Your weapon probably isn't used for any crafting.\nThis list was updated in April 20th, 2018.`
+        return `Ordis didn't find anything, ${util.greet()}. Your weapon probably isn't used for any crafting.\nThis list was updated in April 20th, 2018.`
     }
   },
 }

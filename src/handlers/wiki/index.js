@@ -1,7 +1,7 @@
 const http = require('http')
+const util = require('../../helpers/index')
 
 
-const greetings = ['Operator', 'Star-Child']
 const wikiSize = 5
 const wikiGroupSize = 21
 
@@ -41,10 +41,6 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
-function tenno() {
-  return greetings[(Math.floor(Math.random() * greetings.length))]
-}
-
 module.exports = {
   callWiki: (data, callback) => {
     let url = 'http://warframe.wikia.com/api.php?action=opensearch&search='
@@ -82,7 +78,7 @@ module.exports = {
           })
         }
         else {
-          finalStr = `No results found, ${tenno()}`
+          finalStr = `No results found, ${util.greet()}`
         }
         callback(finalStr)
       })

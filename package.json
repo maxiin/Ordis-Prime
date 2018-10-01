@@ -5,12 +5,11 @@
   "main": "ordis.js",
   "scripts": {
     "start": "node src/index.js",
-    "test": "eslint src lib bin"
+    "test": "eslint src"
   },
   "author": "Max Sylver",
   "license": "MIT",
   "dependencies": {
-    "jquery": "^3.3.1",
     "telegraf": "^3.23.1"
   },
   "devDependencies": {
