@@ -4,7 +4,8 @@
   "description": "a warframe help cephalon, for telegram",
   "main": "ordis.js",
   "scripts": {
-    "start": "node ordis.js"
+    "start": "node ordis.js",
+    "test": "eslint src lib bin"
   },
   "author": "Max Sylver",
   "license": "ISC",
@@ -13,7 +14,9 @@
     "telegraf": "^3.23.1"
   },
   "devDependencies": {
-    "eslint": "^5.6.0",
+    "@atomix/eslint-config": "^7.0.0-alpha.2",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.6.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0"
   }

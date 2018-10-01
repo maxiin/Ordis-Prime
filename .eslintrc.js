@@ -1,5 +1,9 @@
 module.exports = {
-    "extends": "airbnb-base",
+    "extends": "@atomix/eslint-config",
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaVersion": 2017
+    },
     "rules": {
         "no-console": 0
     }
