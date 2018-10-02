@@ -1,8 +1,10 @@
 const util = require('../../helpers/index')
+const weapons = require('./data.json')
 
 
 const isCompSize = 8
 const isCompGroupSize = 24
+const strings = ['is crafting component for the', 'are crafting components for the']
 
 // exporting the function so the main part of the bot can call it
 module.exports = {
@@ -25,6 +27,35 @@ module.exports = {
     let test = data.substring(startingPoint, data.length)
 
     test = test.replace(/[{_}]/g, ' ') // remove underline
+
+    // // Needs testing + fix first letter capitalization
+    // if (test in weapons) {
+    //   let finalStr = ''
+
+    //   for (let item = 0; item < weapons[test].length; item++) {
+    //     if (item > 0) {
+    //       finalStr += '\nAnd'
+    //     }
+    //     if (weapons[test][item].q > 1) {
+    //       finalStr += `${weapons[test][item].q}x `
+    //     }
+    //     finalStr += `[${test}](http://warframe.wikia.com/wiki/${test}) `
+    //     if (weapons[test][item].with !== null) {
+    //       finalStr += `+ [${weapons[test][item].with}](http://warframe.wikia.com/wiki/${weapons[test][item].with}) `
+    //     }
+    //     if (weapons[test][item].with !== null || weapons[test][item].q > 1) {
+    //       finalStr += `${strings[1]} `
+    //     }
+    //     else {
+    //       finalStr += `${strings[0]} `
+    //     }
+    //     finalStr += `[${weapons[test][item].makes}](http://warframe.wikia.com/wiki/${weapons[test][item].makes})`
+    //   }
+
+    //   return finalStr
+    // }
+
+    // return `Ordis didn't find anything, ${util.greet()}. Your weapon probably isn't used for any crafting.\nThis list was updated in April 20th, 2018.`
 
     switch (test) {
       // simple switch for each weapon that can be crafted intro another
