@@ -34,13 +34,6 @@ function download(captalizedUrl, func) {
   })
 }
 
-function capitalizeFirstLetter(string) {
-  if (string.includes('and')) {
-    return string
-  }
-  return string.charAt(0).toUpperCase() + string.slice(1)
-}
-
 module.exports = {
   callWiki: (data, callback) => {
     let url = 'http://warframe.wikia.com/api.php?action=opensearch&search='
@@ -63,7 +56,7 @@ module.exports = {
 
     if (wordsArray) {
       wordsArray.forEach((element) => {
-        url += `${capitalizeFirstLetter(element)} `
+        url += `${util.capitalize(element)} `
       })
 
       url += '&amp'

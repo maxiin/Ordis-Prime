@@ -10,7 +10,7 @@
     "lato": [ { "q": 1, "with": null,  "makes": "Bolto"} ],
     "bolto": [ { "q": 2, "with": null,  "makes": "Akbolto"} , { "q": 1, "with": "Viper", "makes": "Hystrix"} ],
     "akbolto": [ { "q": 1, "with": "Dual Skana", "makes": "Akjagara"} ],
-    "dual skana": [ { "q": 1, "with": "Akbolto", "makes": "Akjagara"} , { "q": 1, "with": "Vasto", "makes": "Redeemer"}, { "q": 1, "with": null, "makes": "Dark Split Sword"} ],
+    "dual skana": [ { "q": 1, "with": "Akbolto", "makes": "Akjagara"} , { "q": 1, "with": "Vasto", "makes": "Redeemer"}, { "q": 1, "with": null, "makes": "Dark Split-Sword"} ],
     "vasto": [ { "q": 1, "with": "Dual Skana", "makes": "Redeemer"} , { "q": 2, "with": null,  "makes": "Akvasto"} ],
     "akstiletto": [ { "q": 1, "with": null,  "makes": "Aksomati"} , { "q": 1, "with": null,  "makes": "Sarpa"} ],
     "gammacor": [ { "q": 1, "with": null,  "makes": "Heliocor"} ],
