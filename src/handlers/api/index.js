@@ -7,6 +7,8 @@ function notFound(where) {
   return `There are no information about ${where} at the moment.`
 }
 
+// add url + sub
+
 function download(sub, func) {
   // http connection
   http.get(url + sub, (res) => {

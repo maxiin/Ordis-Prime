@@ -40,5 +40,6 @@
     "kogake": [ { "q": 1, "with": null,  "makes": "Hirudo"} ],
     "magistar": [ { "q": 1, "with": null,  "makes": "Sibear"} ],
     "nikana": [ { "q": 1, "with": null,  "makes": "Dragon Nikana"} ],
-    "ninkondi": [ { "q": 1, "with": null,  "makes": "Shaku"} ]
+    "ninkondi": [ { "q": 1, "with": null,  "makes": "Shaku"} ],
+    "galatine": [ { "q": 1, "with": null,  "makes": "Paracesis"} ]
 }

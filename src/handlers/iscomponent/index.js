@@ -55,6 +55,6 @@ module.exports = {
       return finalStr
     }
 
-    return `Ordis didn't find anything, ${util.greet()}. Your weapon probably isn't used for any crafting.\nThis list was updated in April 20th, 2018.`
+    return `Ordis didn't find anything, ${util.greet()}. Your weapon probably isn't used for any crafting.\nThis list was updated in October 13th, 2018.`
   },
 }
