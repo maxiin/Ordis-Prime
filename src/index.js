@@ -12,6 +12,10 @@ const api = require('./handlers/api/index')
 const wiki = require('./handlers/wiki/index')
 
 
+bot.telegram.getMe().then((botInfo) => {
+  bot.options.username = botInfo.username
+})
+
 bot.start((ctx) => ctx.reply(`Hello! I am Ordis, ship cephalon, how can I help you, ${util.greet()}?\nFor a list of commands or what each command can do, please use /help`))
 
 bot.command('help', (ctx) => {
