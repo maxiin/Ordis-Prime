@@ -62,11 +62,13 @@ module.exports = {
   getCommandName: (callback) => { 
     download('commandApiTag', (response) => {
       let finalStr = '';
-
+      if (response.toString().localeCompare('') === 0) {
+        finalStr = notFound('CommandName') // error message handler
+      }
+      else {
       // use the response as you like
-      
-      // the only difference here is that we use the callback instead of the data.reply
-      callback(finalStr);
+      }
+      callback(finalStr); // returning what the bot will say
     });
   },
   
