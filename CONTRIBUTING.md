@@ -28,7 +28,7 @@ TELEGRAM_KEY='your_key' npm start
 
 # What can I help?
 ## New Commands
-Before anything, you need to have a command name and add it in the [main file](./ordis.js)
+Before anything, you need to have a command name and add it in the [main file](./src/index.js)
 
 #### Names that you will need to change
 - **CommandName** / **commandName** - the name that you created for it
@@ -44,7 +44,7 @@ bot.command('commandName', ctx => api.getCommandName(msg => ctx.replyWithMarkdow
 bot.command('commandName', ctx => api.getCommandName(msg => ctx.reply(msg)));
 
 ```
-Commands that use the warframe API are editable and can be added in the [api.js file](./commands/api.js)
+Commands that use the warframe API are editable and can be added in the [api.js file](./src/handlers/api/index.js)
 
 Be sure you:
 - Have added the function call on the main file (**ordis.js**)
