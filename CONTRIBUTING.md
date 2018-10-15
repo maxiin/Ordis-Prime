@@ -44,7 +44,7 @@ bot.command('commandName', ctx => api.getCommandName(msg => ctx.replyWithMarkdow
 bot.command('commandName', ctx => api.getCommandName(msg => ctx.reply(msg)));
 
 ```
-Commands that use the warframe API are editable and can be added in the [api.js file](./src/handlers/api/index.js)
+Commands that use the warframe API are editable and can be added in the [api file](./src/handlers/api/index.js)
 
 Be sure you:
 - Have added the function call on the main file (**ordis.js**)
