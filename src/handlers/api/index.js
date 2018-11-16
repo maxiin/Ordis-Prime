@@ -48,7 +48,6 @@ module.exports = {
 
   getTime: (callback) => {
     let eCycle
-    let cCycle
 
     download('', (response) => {
       let finalStr
@@ -59,12 +58,12 @@ module.exports = {
       else {
         // test if the api says if isDay is true, to get the time more accurate
         eCycle = response.earthCycle.isDay ? 'day' : 'night'
-        cCycle = response.cetusCycle.isDay ? 'day' : 'night'
 
         // create the string to return and send it
         finalStr = `Game time: ${dateFormater(response.timestamp)}\n\n`
         + `Earth' ${eCycle} will end in ${response.earthCycle.timeLeft}\n`
-        + `Cetus' ${cCycle} will end in ${response.cetusCycle.timeLeft}`
+        + `Cetus: ${response.cetusCycle.shortString}\n` // cetus: 27 minutes to night
+        + `Vallis: ${response.vallisCycle.shortString}` // vallis 3 minutes to warm
 
         callback(finalStr)
       }
