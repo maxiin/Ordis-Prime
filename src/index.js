@@ -19,10 +19,15 @@ bot.telegram.getMe().then((botInfo) => {
 bot.start((ctx) => ctx.reply(`Hello! I am Ordis, ship cephalon, how can I help you, ${util.greet()}?\nFor a list of commands or what each command can do, please use /help`))
 
 bot.command('help', (ctx) => {
-  ctx.replyWithMarkdown('Here\'s the list of my commands\n/iscomp - Check if a certain weapon is a crafting component for another one. Usage - */iscomp weapon_name*\n'
-    + '/time - Get the current time on Cetus and Earth\n/sortie - Get the details on the current Sortie\n/news - The lastest news from warframe\n/alerts - Shows the Alert missions\n'
-    + '/baro - Shows the Void Trader items or when he will appear\n/darvo - Get Darvo\'s current deal\n/wiki - Makes a search on Warframe\'s wiki page. Usage - */wiki search*\n'
-    + '/acolytes - Shows if the Acolytes are on the game.', Extra.webPreview(false))
+  const help = 'Here\'s the list of my commands, I was created by @sylverzinhu if anything bad happens... tell him please\n'
+    + '/iscomp - Check if a certain weapon is a crafting component for another one. Usage - */iscomp weapon_name*\n'
+    + '/time - Get the current time on Cetus and Earth\n/sortie - Get the details on the current Sortie\n'
+    + '/news - The lastest news from warframe\n/alerts - Shows the Alert missions\n'
+    + '/baro - Shows the Void Trader items or when he will appear\n/darvo - Get Darvo\'s current deal\n'
+    + '/wiki - Makes a search on Warframe\'s wiki page. Usage - */wiki search*\n'
+    + '/acolytes - Shows if the Acolytes are on the game.'
+
+  ctx.replyWithMarkdown(help, Extra.webPreview(false))
 })
 
 // is component function using its own file
