@@ -57,7 +57,7 @@ module.exports = {
         url += `${util.capitalize(element)} `
       })
 
-      url += '&amp'
+      //url += '&amp'
 
       console.log(url)
 
