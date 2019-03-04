@@ -6,6 +6,9 @@ module.exports = {
   randomGreeting: () => greetings[(Math.floor(Math.random() * greetings.length))],
 
   capitalize: (string) => {
+    if (string === undefined){
+      return ''
+    }
     if (string.includes('and')) {
       return string
     }

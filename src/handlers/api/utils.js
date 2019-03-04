@@ -3,6 +3,9 @@ const week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 
 
 module.exports = {
   dateFormater: (timestamp) => {
+    if(timestamp === '' || timestamp === undefined){
+      return ''
+    }
     const date = new Date(Date.parse(timestamp))
 
     //15:25:9 UTC+0, Monday, Mar 4 2019
