@@ -1,5 +1,5 @@
 const http = require('https')
-const util = require('../../helpers/index')
+const util = require('../helpers/utils')
 
 
 const wikiSize = 5
@@ -63,7 +63,7 @@ module.exports = {
 
       download(url, (response) => {
         if (response === null || response[1].length <= 0) {
-          finalStr = `No results found, ${util.greet()}`
+          finalStr = `No results found, ${util.randomGreeting()}`
         }
         else {
           finalStr += 'Wiki results:\n'

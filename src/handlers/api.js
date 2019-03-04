@@ -1,72 +1,14 @@
-// url for the warframe api and the requirements for this archive
-const url = 'https://ws.warframestat.us/pc/'
 const http = require('https')
+const time = require('./api/time')
 
 
-function notFound(where) {
-  return `There are no information about ${where} at the moment.`
-}
-
-function download(sub, func) {
-  // http connection
-  http.get(url + sub, (res) => {
-    let body = ''
-
-    // receiving data
-    res.on('data', (chunk) => {
-      body += chunk
-    })
-
-    // after the end of the stream
-    res.on('end', () => {
-      // calls function in the argument
-      if (body !== '') {
-        func(JSON.parse(body))
-      }
-      else {
-        func('')
-      }
-    })
-
-  // log an error
-  }).on('error', (e) => {
-    console.log('Got an error: ', e)
-  })
-}
-
-function dateFormater(timestamp) {
-  const date = new Date(Date.parse(timestamp))
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dec']
-  const week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-
-  return `${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()} UTC+0, ${week[date.getUTCDay()]}, ${months[date.getUTCMonth()]} ${date.getUTCDate()} ${date.getUTCFullYear()}`
-}
+const api = 'https://ws.warframestat.us/pc/'
 
 module.exports = {
 
-  getTime: (callback) => {
-    let eCycle
-
-    download('', (response) => {
-      let finalStr
-
-      if (response.toString().localeCompare('') === 0) {
-        finalStr = notFound('The game time')
-      }
-      else {
-        // test if the api says if isDay is true, to get the time more accurate
-        eCycle = response.earthCycle.isDay ? 'day' : 'night'
-
-        // create the string to return and send it
-        finalStr = `Game time: ${dateFormater(response.timestamp)}\n\n`
-        + `Earth' ${eCycle} will end in ${response.earthCycle.timeLeft}\n`
-        + `Cetus: ${response.cetusCycle.shortString}\n` // cetus: 27 minutes to night
-        + `Vallis: ${response.vallisCycle.shortString}` // vallis 3 minutes to warm
-
-        callback(finalStr)
-      }
-    })
-  },
+  getTime: new Promise((resolve) => {
+    resolve(downloadAndHandleResponse('', time.handleTime, 'The game time'))
+  }),
 
   getSortie: (callback) => {
     const levels = [' Level 50-60', ' Level 65-80', ' Level 80-100']
@@ -77,16 +19,15 @@ module.exports = {
 
       if (response.toString().localeCompare('') === 0) {
         finalStr = notFound('Sorties')
-      }
-      else {
-        finalStr = `Time left: ${response.eta}\n`
-        + `Defeat ${response.boss}'s Forces\n`
+      } else {
+        finalStr = `Time left: ${response.eta}\n` +
+          `Defeat ${response.boss}'s Forces\n`
 
         for (let index = 0; index < numberOfMissions; index += 1) {
-          finalStr += '-----\n'
-          + `${response.variants[index].node} ${levels[index]}\n`
-          + `${response.variants[index].missionType}\n`
-          + `${response.variants[index].modifier}\n`
+          finalStr += '-----\n' +
+            `${response.variants[index].node} ${levels[index]}\n` +
+            `${response.variants[index].missionType}\n` +
+            `${response.variants[index].modifier}\n`
         }
       }
       callback(finalStr)
@@ -101,8 +42,7 @@ module.exports = {
 
       if (response.toString().localeCompare('') === 0) {
         finalStr = notFound('The news')
-      }
-      else {
+      } else {
         const len = response.length - 1
 
         // margin will secure that no more than 6 news are sent to the user.
@@ -113,9 +53,9 @@ module.exports = {
         }
 
         for (let index = len; index > margin; index -= 1) {
-          finalStr += `${response[index].eta}\n`
-          + `[${response[index].message}](${response[index].link})\n`
-          + '-----\n'
+          finalStr += `${response[index].eta}\n` +
+            `[${response[index].message}](${response[index].link})\n` +
+            '-----\n'
         }
       }
       callback(finalStr)
@@ -128,8 +68,7 @@ module.exports = {
 
       if (response.toString().localeCompare('') === 0) {
         finalStr = notFound('Darvo')
-      }
-      else {
+      } else {
         finalStr = 'Darvo deals:\n'
 
         response.forEach((e) => {
@@ -149,8 +88,7 @@ module.exports = {
 
       if (response === '') {
         finalStr = notFound('The void trader')
-      }
-      else if (response.active === true) {
+      } else if (response.active === true) {
         finalStr = `${response.character} will be at ${response.location} for ${response.endString} until ${dateFormater(response.expiry)}\n-----\n`
 
         for (let index = 0; index < response.inventory.length; index += 1) {
@@ -158,8 +96,7 @@ module.exports = {
 
           finalStr += `${inv.item} | dc-${inv.ducats} cr-${inv.credits}\n`
         }
-      }
-      else {
+      } else {
         finalStr = `${response.character} will arrive in ${response.startString}, ${dateFormater(response.activation)} at ${response.location}`
       }
       callback(finalStr)
@@ -201,8 +138,7 @@ module.exports = {
         if (finalStr === 'Alerts:\n') {
           finalStr = notFound('Alerts')
         }
-      }
-      else {
+      } else {
         finalStr = notFound('Alerts')
       }
       callback(finalStr)
@@ -215,8 +151,7 @@ module.exports = {
 
       if (response.toString().localeCompare('') === 0) {
         finalStr = notFound('Invasions')
-      }
-      else {
+      } else {
         finalStr = 'Invasions:\n'
 
         for (let index = 0; index < response.length; index += 1) {
@@ -241,15 +176,13 @@ module.exports = {
 
       if (response.toString().localeCompare('') === 0) {
         finalStr = notFound('Stalker Acolytes')
-      }
-      else {
+      } else {
         response.forEach((enemy) => {
           const health = Math.floor(enemy.healthPercent * enemyHealth)
 
           if (enemy.isDiscovered) {
             finalStr += `${enemy.agentType} was found at ${enemy.lastDiscoveredAt} and has ${health}% health remaining.\n`
-          }
-          else {
+          } else {
             finalStr += `${enemy.agentType} *has ${health}% health remaining and was not found yet.\n`
           }
           finalStr += '-----\n'
@@ -268,37 +201,36 @@ module.exports = {
 
       if (response.toString().localeCompare('') === 0 || response.active === false) {
         finalStr = notFound('Nightwave')
-      }
-      else{
+      } else {
         finalStr += 'Nightwave Acts:\n'
 
         response.activeChallenges.forEach((challenge) => {
-          if(!challenge.active){
+          if (!challenge.active) {
             return;
-          }else if(challenge.isDaily && challenge.isDaily === true){
+          } else if (challenge.isDaily && challenge.isDaily === true) {
             daily.push(challenge)
-          }else if(challenge.isElite && challenge.isElite === true){
+          } else if (challenge.isElite && challenge.isElite === true) {
             elite.push(challenge)
-          }else{
+          } else {
             weekly.push(challenge)
           }
         })
 
-        if(daily.length > 0){
+        if (daily.length > 0) {
           finalStr += '-----\n'
           finalStr += '*Daily Acts:* +1k Rep \n'
         }
         daily.forEach((challenge) => {
           finalStr += `- *${challenge.title}*: ${challenge.desc}\n`
         })
-        if(weekly.length > 0){
+        if (weekly.length > 0) {
           finalStr += '-----\n'
           finalStr += '*Weekly Acts:* +3k Rep \n'
         }
         weekly.forEach((challenge) => {
           finalStr += `- *${challenge.title}*: ${challenge.desc}\n`
         })
-        if(elite.length > 0){
+        if (elite.length > 0) {
           finalStr += '-----\n'
           finalStr += '*Elite Acts:* +5k Rep \n'
         }
@@ -312,3 +244,45 @@ module.exports = {
     })
   },
 }
+
+function downloadAndHandleResponse(path, handlerFunction, commandPrettyName) {
+  return download(path)
+    .then((res) => {
+      return handlerFunction(res)
+    })
+    .catch((e) => {
+      if (e !== 'empty body') {
+        console.error(e)
+      }
+      return notFound(commandPrettyName)
+    })
+}
+
+function download(sub) {
+  return new Promise((resolve, reject) => {
+    http.get(api + sub, (res) => {
+      let body = ''
+
+      // receiving data
+      res.on('data', (chunk) => {
+        body += chunk
+      })
+
+      // after the end of the stream
+      res.on('end', () => {
+        // calls function in the argument
+        if (body !== '') {
+          resolve(JSON.parse(body))
+        } else {
+          reject('empty body');
+        }
+      })
+
+      // log an error
+    }).on('error', (e) => {
+      reject(e);
+    })
+  })
+}
+
+function notFound(where){ return `There are no information about ${where} at the moment.`}

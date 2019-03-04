@@ -1,5 +1,5 @@
-const util = require('../../helpers/index')
-const weapons = require('./data.json')
+const util = require('../helpers/utils')
+const weapons = require('./iscomponent/data')
 
 
 const isCompSize = 8
@@ -55,6 +55,6 @@ module.exports = {
       return finalStr
     }
 
-    return `Ordis didn't find anything, ${util.greet()}. Your weapon probably isn't used for any crafting.\nThis list was updated in October 13th, 2018.`
+    return `Ordis didn't find anything, ${util.randomGreeting()}. Your weapon probably isn't used for any crafting.\nThis list was updated in October 13th, 2018.`
   },
 }

@@ -2,7 +2,8 @@ const greetings = ['Operator', 'Star-Child']
 
 module.exports = {
 
-  greet: () => greetings[(Math.floor(Math.random() * greetings.length))],
+  // sends a random string from the greetings array
+  randomGreeting: () => greetings[(Math.floor(Math.random() * greetings.length))],
 
   capitalize: (string) => {
     if (string.includes('and')) {
