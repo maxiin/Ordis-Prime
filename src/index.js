@@ -38,6 +38,7 @@ bot.command('wiki', (ctx) => wiki.callWiki(ctx.message.text, (msg) => ctx.replyW
 // warframe api commands
 bot.command('news', (ctx) => api.getNews((msg) => ctx.replyWithMarkdown(msg, Extra.webPreview(false)))) // with markdown + no web preview
 bot.command('darvo', (ctx) => api.getDarvo((msg) => ctx.replyWithMarkdown(msg))) // with markdown
+bot.command('nightwave', (ctx) => api.getNightWaveActs((msg) => ctx.replyWithMarkdown(msg)))
 bot.command('time', (ctx) => api.getTime((msg) => ctx.reply(msg))) // simple message return
 bot.command('sortie', (ctx) => api.getSortie((msg) => ctx.reply(msg)))
 bot.command('baro', (ctx) => api.getBaro((msg) => ctx.reply(msg)))

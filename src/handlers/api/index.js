@@ -7,8 +7,6 @@ function notFound(where) {
   return `There are no information about ${where} at the moment.`
 }
 
-// add url + sub
-
 function download(sub, func) {
   // http connection
   http.get(url + sub, (res) => {
@@ -258,6 +256,59 @@ module.exports = {
         })
       }
       callback(finalStr)
+    })
+  },
+
+  getNightWaveActs: (callback) => {
+    download('nightwave', (response) => {
+      let finalStr = ''
+      let daily = []
+      let weekly = []
+      let elite = []
+
+      if (response.toString().localeCompare('') === 0 || response.active === false) {
+        finalStr = notFound('Nightwave')
+      }
+      else{
+        finalStr += 'Nightwave Acts:\n'
+
+        response.activeChallenges.forEach((challenge) => {
+          if(!challenge.active){
+            return;
+          }else if(challenge.isDaily && challenge.isDaily === true){
+            daily.push(challenge)
+          }else if(challenge.isElite && challenge.isElite === true){
+            elite.push(challenge)
+          }else{
+            weekly.push(challenge)
+          }
+        })
+
+        if(daily.length > 0){
+          finalStr += '-----\n'
+          finalStr += '*Daily Acts:* +1k Rep \n'
+        }
+        daily.forEach((challenge) => {
+          finalStr += `- *${challenge.title}*: ${challenge.desc}\n`
+        })
+        if(weekly.length > 0){
+          finalStr += '-----\n'
+          finalStr += '*Weekly Acts:* +3k Rep \n'
+        }
+        weekly.forEach((challenge) => {
+          finalStr += `- *${challenge.title}*: ${challenge.desc}\n`
+        })
+        if(elite.length > 0){
+          finalStr += '-----\n'
+          finalStr += '*Elite Acts:* +5k Rep \n'
+        }
+        elite.forEach((challenge) => {
+          finalStr += `- *${challenge.title}*: ${challenge.desc}\n`
+        })
+      }
+
+      callback(finalStr)
+
     })
   },
 }
