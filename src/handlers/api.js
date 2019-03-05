@@ -1,18 +1,18 @@
 const http = require('https')
-const time = require('./api/time')
-const sortie = require('./api/sortie')
-const news = require('./api/news')
+const handlers = require('./api/handlers')
 
 
 const api = 'https://ws.warframestat.us/pc/'
 
 module.exports = {
 
-  getTime: downloadAndHandleResponse('', time.handleTime, 'The game time'),
+  getTime: downloadAndHandleResponse('', handlers.time, 'The game time'),
 
-  getSortie: downloadAndHandleResponse('sortie', sortie.handleSortie, 'Sorties'),
+  getSortie: downloadAndHandleResponse('sortie', handlers.sortie, 'Sorties'),
 
-  getNews: downloadAndHandleResponse('news', news.handleNews, 'The news'),
+  getNews: downloadAndHandleResponse('news', handlers.news, 'The news'),
+
+  getDarvo: downloadAndHandleResponse('dailyDeals', null, 'Darvo'),
 
   getDarvo: (callback) => {
     download('dailyDeals', (response) => {
