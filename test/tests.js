@@ -63,11 +63,15 @@ describe('Commands', function(){
         //Earth' day will end in 24m 37s
         //Cetus: 1h 8m to Night
         //Vallis: 11m to Warm
-        expect(res).to.be.a('string')
         expect(res).to.match(/Game time: (\d+:)+\d+ UTC\+0, [A-z]+, [A-z]+ \d+ \d+\n\nEarth\' [0-9A-z ]+\nCetus: [0-9A-z ]+\nVallis: [0-9A-z ]+/)
       })
     })
   })
   describe('/sortie', function(){
+    xit('should return the correct sortie info', function(){
+      return apiCommands.getSortie.then((res) => { 
+        expect(res).to.match(/Time left: [0-9a-z ]+\nDefeat [A-z' ]+\n-----\n\w+/)
+      })
+    })
   })
 })
