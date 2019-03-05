@@ -1,9 +1,10 @@
 const util = require('./utils')
 
 
-const NEWS_LIMIT = 6
 const SORTIE_LEVELS = [' Level 50-60', ' Level 65-80', ' Level 80-100']
 const NUMBER_OF_SORTIE_MISSIONS = 3
+
+const NEWS_LIMIT = 6
 
 module.exports = {
   time: (response) => {
@@ -50,6 +51,39 @@ module.exports = {
       finalStr += `${response[index].eta}\n` +
         `[${response[index].message}](${response[index].link})\n` +
         '-----\n'
+    }
+
+    return finalStr
+  },
+
+  darvo(response) {
+    let finalStr = ''
+
+    finalStr = 'Darvo deals:\n'
+
+    response.forEach((e) => {
+      const remaining = e.total - e.sold
+
+      finalStr += `*${e.item}* for ${e.salePrice}pl, ${e.discount}% OFF\n`
+      finalStr += `Remaining time: ${e.eta}\nRemaining on stock: ${remaining}/${e.total}`
+    })
+
+    return finalStr
+  },
+
+  baro(response) {
+    if (response.active === false) {
+      return `${response.character} will arrive in ${response.startString}, ${dateFormater(response.activation)} at ${response.location}`
+    }
+
+    let finalStr = ''
+
+    finalStr = `${response.character} will be at ${response.location} for ${response.endString} until ${dateFormater(response.expiry)}\n-----\n`
+
+    for (let index = 0; index < response.inventory.length; index += 1) {
+      const inv = response.inventory[index]
+
+      finalStr += `${inv.item} | dc-${inv.ducats} cr-${inv.credits}\n`
     }
 
     return finalStr

@@ -12,48 +12,9 @@ module.exports = {
 
   getNews: downloadAndHandleResponse('news', handlers.news, 'The news'),
 
-  getDarvo: downloadAndHandleResponse('dailyDeals', null, 'Darvo'),
+  getDarvo: downloadAndHandleResponse('dailyDeals', handlers.darvo, 'Darvo'),
 
-  getDarvo: (callback) => {
-    download('dailyDeals', (response) => {
-      let finalStr = ''
-
-      if (response.toString().localeCompare('') === 0) {
-        finalStr = notFound('Darvo')
-      } else {
-        finalStr = 'Darvo deals:\n'
-
-        response.forEach((e) => {
-          const remaining = e.total - e.sold
-
-          finalStr += `*${e.item}* for ${e.salePrice}pl, ${e.discount}% OFF\n`
-          finalStr += `Remaining time: ${e.eta}\nRemaining on stock: ${remaining}/${e.total}`
-        })
-      }
-      callback(finalStr)
-    })
-  },
-
-  getBaro: (callback) => {
-    download('voidTrader', (response) => {
-      let finalStr = ''
-
-      if (response === '') {
-        finalStr = notFound('The void trader')
-      } else if (response.active === true) {
-        finalStr = `${response.character} will be at ${response.location} for ${response.endString} until ${dateFormater(response.expiry)}\n-----\n`
-
-        for (let index = 0; index < response.inventory.length; index += 1) {
-          const inv = response.inventory[index]
-
-          finalStr += `${inv.item} | dc-${inv.ducats} cr-${inv.credits}\n`
-        }
-      } else {
-        finalStr = `${response.character} will arrive in ${response.startString}, ${dateFormater(response.activation)} at ${response.location}`
-      }
-      callback(finalStr)
-    })
-  },
+  getBaro: downloadAndHandleResponse('voidTrader', handlers.baro, 'The void trader'),
 
   getAlerts: (callback) => {
     download('alerts', (response) => {
