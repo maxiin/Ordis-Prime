@@ -32,3 +32,4 @@ For contributions please see the [Contributing page](./CONTRIBUTING.md)
 - darvo - Get Darvo's current deal.
 - wiki - Makes a search on Warframe's wiki page.
 - acolytes - Shows if the Acolytes are on the game.
+- nightwave - Shows the daily and weekly nightwave acts
