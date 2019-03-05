@@ -39,10 +39,8 @@ bot.command('wiki', (ctx) => wiki.callWiki(ctx.message.text, (msg) => { return c
 bot.command('news', (ctx) => api.getNews((msg) => { return ctx.replyWithMarkdown(msg, Extra.webPreview(false))})).catch((err) => {console.log(err)}) // with markdown + no web preview
 bot.command('darvo', (ctx) => api.getDarvo((msg) => { return ctx.replyWithMarkdown(msg)})).catch((err) => {console.log(err)}) // with markdown
 bot.command('nightwave', (ctx) => api.getNightWaveActs((msg) => { return ctx.replyWithMarkdown(msg)})).catch((err) => {console.log(err)})
-bot.command('time', (ctx) => api.getTime
-  .then((m) => ctx.reply(m))
-  .catch((e) => console.error(e)))
-bot.command('sortie', (ctx) => api.getSortie((msg) => { return ctx.reply(msg)})).catch((err) => {console.log(err)})
+bot.command('time', (ctx) => api.getTime.then((m) => ctx.reply(m)))
+bot.command('sortie', (ctx) => api.getSortie.then((m) => ctx.reply(m)))
 bot.command('baro', (ctx) => api.getBaro((msg) => { return ctx.reply(msg)})).catch((err) => {console.log(err)})
 bot.command('alerts', (ctx) => api.getAlerts((msg) => { return ctx.reply(msg)})).catch((err) => {console.log(err)})
 bot.command('invasions', (ctx) => api.getInvasion((msg) => { return ctx.reply(msg)})).catch((err) => {console.log(err)})

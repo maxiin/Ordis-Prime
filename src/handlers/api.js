@@ -1,5 +1,6 @@
 const http = require('https')
 const time = require('./api/time')
+const sortie = require('./api/sortie')
 
 
 const api = 'https://ws.warframestat.us/pc/'
@@ -10,29 +11,9 @@ module.exports = {
     resolve(downloadAndHandleResponse('', time.handleTime, 'The game time'))
   }),
 
-  getSortie: (callback) => {
-    const levels = [' Level 50-60', ' Level 65-80', ' Level 80-100']
-    const numberOfMissions = 3
-
-    download('sortie', (response) => {
-      let finalStr = ''
-
-      if (response.toString().localeCompare('') === 0) {
-        finalStr = notFound('Sorties')
-      } else {
-        finalStr = `Time left: ${response.eta}\n` +
-          `Defeat ${response.boss}'s Forces\n`
-
-        for (let index = 0; index < numberOfMissions; index += 1) {
-          finalStr += '-----\n' +
-            `${response.variants[index].node} ${levels[index]}\n` +
-            `${response.variants[index].missionType}\n` +
-            `${response.variants[index].modifier}\n`
-        }
-      }
-      callback(finalStr)
-    })
-  },
+  getSortie: new Promise((resolve) => {
+    resolve(downloadAndHandleResponse('sortie', sortie.handleSortie, 'Sorties'))
+  }),
 
   getNews: (callback) => {
     const newsLimit = 6
