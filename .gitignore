@@ -1,0 +1,5 @@
+bak/
+.vscode/
+node_modules/
+data.txt
+pc*.json
