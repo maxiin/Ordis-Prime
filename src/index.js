@@ -25,7 +25,8 @@ bot.command('help', (ctx) => {
     + '/news - The lastest news from warframe\n/alerts - Shows the Alert missions\n'
     + '/baro - Shows the Void Trader items or when he will appear\n/darvo - Get Darvo\'s current deal\n'
     + '/wiki - Makes a search on Warframe\'s wiki page. Usage - */wiki search*\n'
-    + '/acolytes - Shows if the Acolytes are on the game.'
+    + '/acolytes - Shows if the Acolytes are on the game.\n'
+    + '/nightwave - Shows the daily and weekly nightwave acts.'
 
   return ctx.replyWithMarkdown(help, Extra.webPreview(false))
 }).catch((err) => {console.log(err)})
