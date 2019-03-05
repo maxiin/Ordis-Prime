@@ -1,47 +1,18 @@
 const http = require('https')
 const time = require('./api/time')
 const sortie = require('./api/sortie')
+const news = require('./api/news')
 
 
 const api = 'https://ws.warframestat.us/pc/'
 
 module.exports = {
 
-  getTime: new Promise((resolve) => {
-    resolve(downloadAndHandleResponse('', time.handleTime, 'The game time'))
-  }),
+  getTime: downloadAndHandleResponse('', time.handleTime, 'The game time'),
 
-  getSortie: new Promise((resolve) => {
-    resolve(downloadAndHandleResponse('sortie', sortie.handleSortie, 'Sorties'))
-  }),
+  getSortie: downloadAndHandleResponse('sortie', sortie.handleSortie, 'Sorties'),
 
-  getNews: (callback) => {
-    const newsLimit = 6
-
-    download('news', (response) => {
-      let finalStr = ''
-
-      if (response.toString().localeCompare('') === 0) {
-        finalStr = notFound('The news')
-      } else {
-        const len = response.length - 1
-
-        // margin will secure that no more than 6 news are sent to the user.
-        let margin = 0
-
-        if (len >= newsLimit) {
-          margin = len - newsLimit
-        }
-
-        for (let index = len; index > margin; index -= 1) {
-          finalStr += `${response[index].eta}\n` +
-            `[${response[index].message}](${response[index].link})\n` +
-            '-----\n'
-        }
-      }
-      callback(finalStr)
-    })
-  },
+  getNews: downloadAndHandleResponse('news', news.handleNews, 'The news'),
 
   getDarvo: (callback) => {
     download('dailyDeals', (response) => {
@@ -227,16 +198,20 @@ module.exports = {
 }
 
 function downloadAndHandleResponse(path, handlerFunction, commandPrettyName) {
-  return download(path)
-    .then((res) => {
-      return handlerFunction(res)
-    })
-    .catch((e) => {
-      if (e !== 'empty body') {
-        console.error(e)
-      }
-      return notFound(commandPrettyName)
-    })
+  return new Promise((resolve) => {
+    resolve(
+      download(path)
+      .then((res) => {
+        return handlerFunction(res)
+      })
+      .catch((e) => {
+        if (e !== 'empty body') {
+          console.error(e)
+        }
+        return notFound(commandPrettyName)
+      })
+    )
+  })
 }
 
 function download(sub) {
@@ -266,4 +241,6 @@ function download(sub) {
   })
 }
 
-function notFound(where){ return `There are no information about ${where} at the moment.`}
+function notFound(where) {
+  return `There are no information about ${where} at the moment.`
+}
