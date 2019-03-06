@@ -73,12 +73,12 @@ module.exports = {
 
   baro(response) {
     if (response.active === false) {
-      return `${response.character} will arrive in ${response.startString}, ${dateFormater(response.activation)} at ${response.location}`
+      return `${response.character} will arrive in ${response.startString}, ${util.dateFormater(response.activation)} at ${response.location}`
     }
 
     let finalStr = ''
 
-    finalStr = `${response.character} will be at ${response.location} for ${response.endString} until ${dateFormater(response.expiry)}\n-----\n`
+    finalStr = `${response.character} will be at ${response.location} for ${response.endString} until ${util.dateFormater(response.expiry)}\n-----\n`
 
     for (let index = 0; index < response.inventory.length; index += 1) {
       const inv = response.inventory[index]
