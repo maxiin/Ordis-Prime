@@ -74,4 +74,25 @@ describe('Commands', function(){
       })
     })
   })
+  describe('/news', function(){
+    xit('should return at least one of the news', function(){
+      return apiCommands.getNews.then((res) => {
+        expect(res).to.match(/[0-9a-z ]+/)
+      })
+    })
+  })
+  describe('/darvo', function(){
+    xit('should return darvo deals', function(){
+      return apiCommands.getDarvo.then((res) => {
+        expect(res).to.match(/Darvo deals:\n[0-9A-z \*]+/)
+      })
+    })
+  })
+  describe('/baro', function(){
+    xit('should return baros deals or when he is comming', function(){
+      return apiCommands.getBaro.then((res) => {
+        expect(res).to.match(/[A-z ] will/)
+      })
+    })
+  })
 })
