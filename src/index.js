@@ -47,4 +47,6 @@ bot.command('alerts', (ctx) => api.getAlerts((msg) => { return ctx.reply(msg)}))
 bot.command('invasions', (ctx) => api.getInvasion((msg) => { return ctx.reply(msg)})).catch((err) => {console.log(err)})
 bot.command('acolytes', (ctx) => api.getAcolytes((msg) => { return ctx.reply(msg)})).catch((err) => {console.log(err)})
 
-bot.startPolling()
+bot.launch().then(()=>{
+  console.log('*Cosmic background radiation*')
+})
