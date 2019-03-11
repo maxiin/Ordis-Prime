@@ -95,4 +95,9 @@ describe('Commands', function(){
       })
     })
   })
+  describe('/alerts', function(){
+    xit('should return a list of alert missions', function(){
+      // /alerts are deprecated, therefore not able to be tested
+    })
+  })
 })

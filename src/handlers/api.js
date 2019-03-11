@@ -16,47 +16,7 @@ module.exports = {
 
   getBaro: downloadAndHandleResponse('voidTrader', handlers.baro, 'The void trader'),
 
-  getAlerts: (callback) => {
-    download('alerts', (response) => {
-      let finalStr = ''
-
-      if (response !== '') {
-        finalStr = 'Alerts:\n'
-
-        response.forEach((element) => {
-          let creditOrEndoOnly = false
-
-          for (let index = 0; index < element.rewardTypes.length; index += 1) {
-            const types = element.rewardTypes[index]
-
-            if (types === 'credits' || types === 'endo') {
-              creditOrEndoOnly = true
-            }
-          }
-
-          if (!creditOrEndoOnly) {
-            finalStr += '-----\n'
-
-            if (element.mission.description) {
-              finalStr += `${element.mission.description}\n`
-            }
-            finalStr += `${element.mission.node} ${element.mission.minEnemyLevel} - ${element.mission.maxEnemyLevel} / ${element.mission.type} / ${element.mission.faction}\n`
-            finalStr += `Remaining: ${element.eta}\n`
-            finalStr += `${element.mission.reward.asString}\n`
-          }
-        })
-
-        // if the final string is alerts + newline all the alerts are credits or endo
-        // since we don't want that, we just return the "not found string"
-        if (finalStr === 'Alerts:\n') {
-          finalStr = notFound('Alerts')
-        }
-      } else {
-        finalStr = notFound('Alerts')
-      }
-      callback(finalStr)
-    })
-  },
+  getAlerts: downloadAndHandleResponse('alerts', handlers.alerts, 'The alerts'),
 
   getInvasion: (callback) => {
     download('invasions', (response) => {

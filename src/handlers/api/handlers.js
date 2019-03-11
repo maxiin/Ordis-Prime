@@ -85,5 +85,24 @@ module.exports = {
     }
 
     return finalStr
+  },
+
+  alerts(response) {
+    let finalStr = 'Alerts:\n'
+
+    response.forEach((element) => {
+      let alert = element.mission;
+
+      finalStr += '-----\n'
+      if (alert.description) {
+        finalStr += `${alert.description}\n`
+      }
+      finalStr += `${alert.node} ${alert.minEnemyLevel} - ${alert.maxEnemyLevel} / ${alert.type} / ${alert.faction}\n`
+      finalStr += `Remaining: ${element.eta}\n`
+      finalStr += `${alert.reward.asString}\n`
+
+    })
+
+    return finalStr
   }
 }
