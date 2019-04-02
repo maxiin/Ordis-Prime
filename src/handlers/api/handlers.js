@@ -87,20 +87,81 @@ module.exports = {
     return finalStr
   },
 
-  alerts(response) {
-    let finalStr = 'Alerts:\n'
+  invasions(response) {
+    let finalStr = 'Invasions:\n'
 
-    response.forEach((element) => {
-      let alert = element.mission;
+    for (let index = 0; index < response.length; index += 1) {
+      let mission = response[index];
 
-      finalStr += '-----\n'
-      if (alert.description) {
-        finalStr += `${alert.description}\n`
+      if (mission.completion >= 0 || !mission.eta.startsWith('-')) {
+        finalStr += '-----\n'
+        finalStr += `${mission.node} ${Math.floor(mission.completion)}%\n`
+        const isInfested = mission.attackerReward.asString === '' ? '' : `(${mission.attackerReward.asString})`
+
+        finalStr += `${mission.attackingFaction}${isInfested} vs ${mission.defendingFaction}(${mission.defenderReward.asString})\n`
       }
-      finalStr += `${alert.node} ${alert.minEnemyLevel} - ${alert.maxEnemyLevel} / ${alert.type} / ${alert.faction}\n`
-      finalStr += `Remaining: ${element.eta}\n`
-      finalStr += `${alert.reward.asString}\n`
+    }
 
+    return finalStr
+  },
+
+  acolytes(response) {
+    let finalStr = ''
+    const enemyHealth = 100
+
+    response.forEach((enemy) => {
+      const health = Math.floor(enemy.healthPercent * enemyHealth)
+
+      if (enemy.isDiscovered) {
+        finalStr += `${enemy.agentType} was found at ${enemy.lastDiscoveredAt} and has ${health}% health remaining.\n`
+      } else {
+        finalStr += `${enemy.agentType} *has ${health}% health remaining and was not found yet.\n`
+      }
+      finalStr += '-----\n'
+    })
+    return finalStr
+  },
+
+  nightWaves(response) {
+    let finalStr = ''
+    let daily = []
+    let weekly = []
+    let elite = []
+
+    finalStr += 'Nightwave Acts:\n'
+
+    response.activeChallenges.forEach((challenge) => {
+      if (!challenge.active) {
+        return;
+      } else if (challenge.isDaily && challenge.isDaily === true) {
+        daily.push(challenge)
+      } else if (challenge.isElite && challenge.isElite === true) {
+        elite.push(challenge)
+      } else {
+        weekly.push(challenge)
+      }
+    })
+
+    if (daily.length > 0) {
+      finalStr += '-----\n'
+      finalStr += '*Daily Acts:* +1k Rep \n'
+    }
+    daily.forEach((challenge) => {
+      finalStr += `- *${challenge.title}*: ${challenge.desc}\n`
+    })
+    if (weekly.length > 0) {
+      finalStr += '-----\n'
+      finalStr += '*Weekly Acts:* +3k Rep \n'
+    }
+    weekly.forEach((challenge) => {
+      finalStr += `- *${challenge.title}*: ${challenge.desc}\n`
+    })
+    if (elite.length > 0) {
+      finalStr += '-----\n'
+      finalStr += '*Elite Acts:* +5k Rep \n'
+    }
+    elite.forEach((challenge) => {
+      finalStr += `- *${challenge.title}*: ${challenge.desc}\n`
     })
 
     return finalStr

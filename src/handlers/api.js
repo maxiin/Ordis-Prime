@@ -16,106 +16,12 @@ module.exports = {
 
   getBaro: downloadAndHandleResponse('voidTrader', handlers.baro, 'The void trader'),
 
-  getAlerts: downloadAndHandleResponse('alerts', handlers.alerts, 'The alerts'),
+  getInvasion: downloadAndHandleResponse('invasions', handlers.invasions, 'Invasions'),
 
-  getInvasion: (callback) => {
-    download('invasions', (response) => {
-      let finalStr = ''
+  getAcolytes: downloadAndHandleResponse('persistentEnemies', handlers.acolytes, 'Stalker Acolytes'),
 
-      if (response.toString().localeCompare('') === 0) {
-        finalStr = notFound('Invasions')
-      } else {
-        finalStr = 'Invasions:\n'
-
-        for (let index = 0; index < response.length; index += 1) {
-          if (response[index].completion >= 0 || !response[index].eta.startsWith('-')) {
-            finalStr += '-----\n'
-            finalStr += `${response[index].node} ${Math.floor(response[index].completion)}%\n`
-            const isInfested = response[index].attackerReward.asString === '' ? '' : `(${response[index].attackerReward.asString})`
-
-            finalStr += `${response[index].attackingFaction}${isInfested} vs ${response[index].defendingFaction}(${response[index].defenderReward.asString})\n`
-          }
-        }
-      }
-      callback(finalStr)
-    })
-  },
-
-  getAcolytes: (callback) => {
-    const enemyHealth = 100
-
-    download('persistentEnemies', (response) => {
-      let finalStr = ''
-
-      if (response.toString().localeCompare('') === 0) {
-        finalStr = notFound('Stalker Acolytes')
-      } else {
-        response.forEach((enemy) => {
-          const health = Math.floor(enemy.healthPercent * enemyHealth)
-
-          if (enemy.isDiscovered) {
-            finalStr += `${enemy.agentType} was found at ${enemy.lastDiscoveredAt} and has ${health}% health remaining.\n`
-          } else {
-            finalStr += `${enemy.agentType} *has ${health}% health remaining and was not found yet.\n`
-          }
-          finalStr += '-----\n'
-        })
-      }
-      callback(finalStr)
-    })
-  },
-
-  getNightWaveActs: (callback) => {
-    download('nightwave', (response) => {
-      let finalStr = ''
-      let daily = []
-      let weekly = []
-      let elite = []
-
-      if (response.toString().localeCompare('') === 0 || response.active === false) {
-        finalStr = notFound('Nightwave')
-      } else {
-        finalStr += 'Nightwave Acts:\n'
-
-        response.activeChallenges.forEach((challenge) => {
-          if (!challenge.active) {
-            return;
-          } else if (challenge.isDaily && challenge.isDaily === true) {
-            daily.push(challenge)
-          } else if (challenge.isElite && challenge.isElite === true) {
-            elite.push(challenge)
-          } else {
-            weekly.push(challenge)
-          }
-        })
-
-        if (daily.length > 0) {
-          finalStr += '-----\n'
-          finalStr += '*Daily Acts:* +1k Rep \n'
-        }
-        daily.forEach((challenge) => {
-          finalStr += `- *${challenge.title}*: ${challenge.desc}\n`
-        })
-        if (weekly.length > 0) {
-          finalStr += '-----\n'
-          finalStr += '*Weekly Acts:* +3k Rep \n'
-        }
-        weekly.forEach((challenge) => {
-          finalStr += `- *${challenge.title}*: ${challenge.desc}\n`
-        })
-        if (elite.length > 0) {
-          finalStr += '-----\n'
-          finalStr += '*Elite Acts:* +5k Rep \n'
-        }
-        elite.forEach((challenge) => {
-          finalStr += `- *${challenge.title}*: ${challenge.desc}\n`
-        })
-      }
-
-      callback(finalStr)
-
-    })
-  },
+  getNightWaveActs: downloadAndHandleResponse('nightwave', handlers.nightWaves, 'Nightwave'),
+  
 }
 
 function downloadAndHandleResponse(path, handlerFunction, commandPrettyName) {
