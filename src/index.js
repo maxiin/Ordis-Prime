@@ -11,6 +11,8 @@ const iscomponent = require('./handlers/iscomp')
 const api = require('./handlers/api')
 const wiki = require('./handlers/wiki')
 
+const deprecated = `I can't tell you anything about that anymore, ${util.randomGreeting()}.`
+
 
 bot.telegram.getMe().then((botInfo) => {
   bot.options.username = botInfo.username
@@ -42,10 +44,10 @@ bot.command('darvo', (ctx) => api.getDarvo((msg) => { return ctx.replyWithMarkdo
 bot.command('nightwave', (ctx) => api.getNightWaveActs((msg) => { return ctx.replyWithMarkdown(msg)})).catch((err) => {console.log(err)})
 bot.command('time', (ctx) => api.getTime.then((m) => ctx.reply(m)))
 bot.command('sortie', (ctx) => api.getSortie.then((m) => ctx.reply(m)))
-bot.command('baro', (ctx) => api.getBaro((msg) => { return ctx.reply(msg)})).catch((err) => {console.log(err)})
-bot.command('alerts', (ctx) => api.getAlerts((msg) => { return ctx.reply(msg)})).catch((err) => {console.log(err)})
-bot.command('invasions', (ctx) => api.getInvasion((msg) => { return ctx.reply(msg)})).catch((err) => {console.log(err)})
-bot.command('acolytes', (ctx) => api.getAcolytes((msg) => { return ctx.reply(msg)})).catch((err) => {console.log(err)})
+bot.command('baro', (ctx) => api.getBaro.then((m) => ctx.reply(m)))
+bot.command('invasions', (ctx) => api.getInvasion.then((m) => ctx.reply(m)))
+bot.command('acolytes', (ctx) => api.getAcolytes.then((m) => ctx.reply(m)))
+bot.command('alerts', (ctx) => ctx.reply(deprecated))
 
 bot.launch().then(()=>{
   console.log('*Cosmic background radiation*')
