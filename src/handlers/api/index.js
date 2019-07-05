@@ -21,7 +21,12 @@ function download(sub, func) {
     res.on('end', () => {
       // calls function in the argument
       if (body !== '') {
-        func(JSON.parse(body))
+        try {
+          func(JSON.parse(body));
+        } catch(e) {
+          console.log(e, body);
+          func('');
+        }
       }
       else {
         func('')
