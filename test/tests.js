@@ -100,4 +100,18 @@ describe('Commands', function(){
       // /alerts are deprecated, therefore not able to be tested
     })
   })
+  describe('/invasions', function(){
+    xit('should return list of invasion missions', function(){
+      return apiCommands.getInvasion.then((res) => {
+        expect(res).to.match(/Invasions:/);
+      })
+    })
+  })
+  describe('/acolytes', function(){
+    it('should return list of acolytes in the game', function(){
+      return apiCommands.getAcolytes.then((res) => {
+        expect(res).to.match(/./);
+      })
+    })
+  })
 })

@@ -129,7 +129,7 @@ module.exports = {
     let elite = []
 
     finalStr += 'Nightwave Acts:\n'
-
+    console.log(response)
     response.activeChallenges.forEach((challenge) => {
       if (!challenge.active) {
         return;

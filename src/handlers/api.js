@@ -2,7 +2,7 @@ const http = require('https')
 const handlers = require('./api/handlers')
 
 
-const api = 'https://ws.warframestat.us/pc/'
+const api = 'https://ws.warframestat.us/pc'
 
 module.exports = {
 
@@ -43,7 +43,8 @@ function downloadAndHandleResponse(path, handlerFunction, commandPrettyName) {
 
 function download(sub) {
   return new Promise((resolve, reject) => {
-    http.get(api + sub, (res) => {
+    let url = sub? api + "/" + sub + "/": api;
+    http.get(url, (res) => {
       let body = ''
 
       // receiving data
@@ -55,10 +56,22 @@ function download(sub) {
       res.on('end', () => {
         // calls function in the argument
         if (body !== '') {
-          resolve(JSON.parse(body))
+          let parsedBody;
+          try{
+            parsedBody = JSON.parse(body);
+            if(parsedBody.code !== 200){
+              resolve(parsedBody)
+            }else{
+              reject('error code');
+            }
+          }catch(e){
+            console.log(url, e);
+            reject('empty body');
+          }
         } else {
           reject('empty body');
         }
+        reject('other');
       })
 
       // log an error

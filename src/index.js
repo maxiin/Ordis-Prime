@@ -39,9 +39,9 @@ bot.command('iscomp', (ctx) => { return ctx.replyWithMarkdown(iscomponent.test(c
 bot.command('wiki', (ctx) => wiki.callWiki(ctx.message.text, (msg) => { return ctx.replyWithMarkdown(msg, Extra.webPreview(false))})).catch((err) => {console.log(err)})
 
 // warframe api commands
-bot.command('news', (ctx) => api.getNews((msg) => { return ctx.replyWithMarkdown(msg, Extra.webPreview(false))})).catch((err) => {console.log(err)}) // with markdown + no web preview
-bot.command('darvo', (ctx) => api.getDarvo((msg) => { return ctx.replyWithMarkdown(msg)})).catch((err) => {console.log(err)}) // with markdown
-bot.command('nightwave', (ctx) => api.getNightWaveActs((msg) => { return ctx.replyWithMarkdown(msg)})).catch((err) => {console.log(err)})
+bot.command('news', (ctx) => api.getNews.then((m) => ctx.replyWithMarkdown(msg, Extra.webPreview(false))))
+bot.command('darvo', (ctx) => api.getDarvo.then((m) => ctx.replyWithMarkdown(m)))
+bot.command('nightwave', (ctx) => api.getNightWaveActs.then((m) => { ctx.replyWithMarkdown(m)}))
 bot.command('time', (ctx) => api.getTime.then((m) => ctx.reply(m)))
 bot.command('sortie', (ctx) => api.getSortie.then((m) => ctx.reply(m)))
 bot.command('baro', (ctx) => api.getBaro.then((m) => ctx.reply(m)))
