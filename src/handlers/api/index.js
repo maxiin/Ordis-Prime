@@ -298,14 +298,14 @@ module.exports = {
         })
         if(weekly.length > 0){
           finalStr += '-----\n'
-          finalStr += '*Weekly Acts:* +6k Rep \n'
+          finalStr += '*Weekly Acts:* +4.5k Rep \n'
         }
         weekly.forEach((challenge) => {
           finalStr += `- *${challenge.title}*: ${challenge.desc}\n`
         })
         if(elite.length > 0){
           finalStr += '-----\n'
-          finalStr += '*Elite Acts:* +9k Rep \n'
+          finalStr += '*Elite Acts:* +7k Rep \n'
         }
         elite.forEach((challenge) => {
           finalStr += `- *${challenge.title}*: ${challenge.desc}\n`
