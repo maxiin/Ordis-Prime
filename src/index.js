@@ -34,7 +34,7 @@ bot.command('help', (ctx) => {
 // is component function using its own file
 bot.command('iscomp', (ctx) => { return ctx.replyWithMarkdown(iscomponent.test(ctx.message.text), Extra.webPreview(false))}).catch((err) => {console.log(err)})
 // wiki command that uses another api
-bot.command('wiki', (ctx) => wiki.callWiki(ctx.message.text, (msg) => { return ctx.replyWithMarkdown(msg, Extra.webPreview(false))})).catch((err) => {console.log(err)})
+bot.command('wiki', (ctx) => wiki.callWiki(ctx.message.text, (msg) => { return ctx.replyWithMarkdown(msg, Extra.webPreview(true))})).catch((err) => {console.log(err)})
 
 // warframe api commands
 bot.command('news', (ctx) => api.getNews((msg) => { return ctx.replyWithMarkdown(msg, Extra.webPreview(false))})).catch((err) => {console.log(err)}) // with markdown + no web preview
