@@ -36,13 +36,30 @@ bot.command('iscomp', (ctx) => { return ctx.replyWithMarkdown(iscomponent.test(c
 // wiki command that uses another api
 bot.command('wiki', (ctx) => wiki.callWiki(ctx.message.text, (msg) => { return ctx.replyWithMarkdown(msg, Extra.webPreview(true))})).catch((err) => {console.log(err)})
 
+async function callBaro(ctx) {
+  try {
+    if(ctx.update.message.chat.type === 'private'){
+      return await api.getBaro((msg) => { return ctx.reply(msg)})
+    }
+    ctx.getChatAdministrators(ctx.update.message.chat.id).then((adms) => {
+      adms.forEach(async obj => {
+        if (obj.user.id === ctx.update.message.from.id) {
+          return await api.getBaro((msg) => { return ctx.reply(msg)})
+        }
+      });
+    })
+  } catch (e) {
+    console.error(e);
+  }
+}
+
 // warframe api commands
 bot.command('news', (ctx) => api.getNews((msg) => { return ctx.replyWithMarkdown(msg, Extra.webPreview(false))})).catch((err) => {console.log(err)}) // with markdown + no web preview
 bot.command('darvo', (ctx) => api.getDarvo((msg) => { return ctx.replyWithMarkdown(msg)})).catch((err) => {console.log(err)}) // with markdown
 bot.command('nightwave', (ctx) => api.getNightWaveActs((msg) => { return ctx.replyWithMarkdown(msg)})).catch((err) => {console.log(err)})
 bot.command('time', (ctx) => api.getTime((msg) => { return ctx.reply(msg)})).catch((err) => {console.log(err)}) // simple message return
 bot.command('sortie', (ctx) => api.getSortie((msg) => { return ctx.reply(msg)})).catch((err) => {console.log(err)})
-bot.command('baro', (ctx) => api.getBaro((msg) => { return ctx.reply(msg)})).catch((err) => {console.log(err)})
+bot.command('baro', (ctx) => callBaro(ctx))
 bot.command('alerts', (ctx) => api.getAlerts((msg) => { return ctx.reply(msg)})).catch((err) => {console.log(err)})
 bot.command('invasions', (ctx) => api.getInvasion((msg) => { return ctx.reply(msg)})).catch((err) => {console.log(err)})
 bot.command('acolytes', (ctx) => api.getAcolytes((msg) => { return ctx.reply(msg)})).catch((err) => {console.log(err)})
