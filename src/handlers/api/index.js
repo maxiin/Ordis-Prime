@@ -62,11 +62,25 @@ module.exports = {
         // test if the api says if isDay is true, to get the time more accurate
         eCycle = response.earthCycle.isDay ? 'day' : 'night'
 
+        // time translation for necralisk
+        now = new Date(response.timestamp);
+        expiry = new Date(response.cambrionCycle.expiry);
+        timeDiff = Math.abs(now - expiry);
+        diffMin = Math.floor(timeDiff / (1000 * 60));
+        diffHour = Math.floor(diffMin / 60); 
+        diffDays = Math.floor(diffHour / 24); 
+        // fix bigger numbers
+        diffHour = diffHour % 24;
+        diffMin = diffMin % 60;
+        // string mount
+        necraliskTimeLeft = `${diffDays ? `${diffDays} days, ` : ''}${diffHour ? `${diffHour} hours and ` : ''}${diffMin} minutes`
+
         // create the string to return and send it
         finalStr = `Game time: ${dateFormater(response.timestamp)}\n\n`
         + `Earth' ${eCycle} will end in ${response.earthCycle.timeLeft}\n`
+        + `Necralisk: ${response.cambrionCycle.active} will be killed in ${necraliskTimeLeft}\n` // Necralisk fass will die in 9 minutes
         + `Cetus: ${response.cetusCycle.shortString}\n` // cetus: 27 minutes to night
-        + `Vallis: ${response.vallisCycle.shortString}` // vallis 3 minutes to warm
+        + `Vallis: ${response.vallisCycle.shortString}\n` // vallis 3 minutes to warm
 
         callback(finalStr)
       }
