@@ -64,7 +64,7 @@ module.exports = {
 
         // time translation for necralisk
         now = new Date(response.timestamp);
-        expiry = new Date(response.cambrionCycle.expiry);
+        expiry = new Date(response.cambionCycle.expiry);
         timeDiff = Math.abs(now - expiry);
         diffMin = Math.floor(timeDiff / (1000 * 60));
         diffHour = Math.floor(diffMin / 60); 
@@ -78,7 +78,7 @@ module.exports = {
         // create the string to return and send it
         finalStr = `Game time: ${dateFormater(response.timestamp)}\n\n`
         + `Earth' ${eCycle} will end in ${response.earthCycle.timeLeft}\n`
-        + `Necralisk: ${response.cambrionCycle.active} will be killed in ${necraliskTimeLeft}\n` // Necralisk fass will die in 9 minutes
+        + `Necralisk: ${response.cambionCycle.active} will be killed in ${necraliskTimeLeft}\n` // Necralisk fass will die in 9 minutes
         + `Cetus: ${response.cetusCycle.shortString}\n` // cetus: 27 minutes to night
         + `Vallis: ${response.vallisCycle.shortString}\n` // vallis 3 minutes to warm
 
