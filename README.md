@@ -23,7 +23,7 @@ For contributions please see the [Contributing page](./CONTRIBUTING.md)
 
 ## Commands
 - iscomp - Check if a certain weapon is a crafting component for another one.
-- time - Get the current time on Cetus and Earth.
+- time - Get the current time on Cetus, Earth, Fortuna and Necralisk.
 - sortie - Get the details on the current Sortie.
 - news - The lastest news from warframe.
 - alerts - Shows the Alert missions.
