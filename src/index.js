@@ -19,7 +19,7 @@ bot.telegram.getMe().then((botInfo) => {
 bot.start((ctx) => {return ctx.reply(`Hello! I am Ordis, ship cephalon, how can I help you, ${util.greet()}?\nFor a list of commands or what each command can do, please use /help`)})
 
 bot.command('help', (ctx) => {
-  const help = 'Here\'s the list of my commands, I was created by @Tigrinha if anything bad happens... tell him please\n'
+  const help = 'Here\'s the list of my commands, I was created by @Tigrinha if anything bad happens... tell her please\n'
     + '/iscomp - Check if a certain weapon is a crafting component for another one. Usage - */iscomp weapon_name*\n'
     + '/time - Get the current time on Cetus and Earth\n/sortie - Get the details on the current Sortie\n'
     + '/news - The lastest news from warframe\n/alerts - Shows the Alert missions\n'
