@@ -2,6 +2,7 @@
 const url = 'https://ws.warframestat.us/pc/'
 const http = require('https')
 
+const TIER_LIST_STRINGS = ['', 'Lith 🥉', 'Meso 🥈', 'Neo 🥇', 'Axi 🎖', 'Requiem 🚨']
 
 function notFound(where) {
   return `There are no information about ${where} at the moment.`
@@ -328,6 +329,49 @@ module.exports = {
 
       callback(finalStr)
 
+    })
+  },
+
+  getFissures: (isStorm, callback) => {
+    download('fissures', (response) => {
+      let finalStr = ''
+
+      if (response.toString().localeCompare('') === 0) {
+        finalStr = notFound('Fissures')
+      }
+      else {
+        if(isStorm){
+          finalStr = 'Fissures (For Normal Fissures do /fissures):\n'
+        } else {
+          finalStr = 'Fissures (For Storms do /stormfissures):\n'
+        }
+
+        let fissureMap = [];
+        response.forEach((val) => {
+          if(val.isStorm !== isStorm){
+            return;
+          }
+          if(!fissureMap[val.tierNum]){
+            fissureMap[val.tierNum] = []
+          }
+          fissureMap[val.tierNum].push(val);
+        });
+
+        for (let i = 0; i < fissureMap.length; i++) {
+          let fissures = fissureMap[i];
+          if(fissures && fissures.length){
+            finalStr += `\n${TIER_LIST_STRINGS[i]}\n`
+            for(let j = 0; j < fissures.length; j++) {
+              let fissure = fissures[j];
+              if (fissure.active && !fissure.eta.startsWith('-')) {
+                finalStr += `${fissure.node}\n`
+                finalStr += `----- ${fissure.missionType} - ${fissure.eta}\n`
+              }
+            }
+          }
+        }
+      }
+      callback(finalStr)
     })
   },
 }

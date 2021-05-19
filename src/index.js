@@ -36,15 +36,15 @@ bot.command('iscomp', (ctx) => { return ctx.replyWithMarkdown(iscomponent.test(c
 // wiki command that uses another api
 bot.command('wiki', (ctx) => wiki.callWiki(ctx.message.text, (msg) => { return ctx.replyWithMarkdown(msg, Extra.webPreview(true))})).catch((err) => {console.log(err)})
 
-async function callBaro(ctx) {
+async function adminOnlyCall(ctx, call) {
   try {
     if(ctx.update.message.chat.type === 'private'){
-      return await api.getBaro((msg) => { return ctx.reply(msg)})
+      return await call((msg) => { return ctx.reply(msg)})
     }
     ctx.getChatAdministrators(ctx.update.message.chat.id).then((adms) => {
       adms.forEach(async obj => {
         if (obj.user.id === ctx.update.message.from.id) {
-          return await api.getBaro((msg) => { return ctx.reply(msg)})
+          return await call((msg) => { return ctx.reply(msg)})
         }
       });
     })
@@ -59,9 +59,11 @@ bot.command('darvo', (ctx) => api.getDarvo((msg) => { return ctx.replyWithMarkdo
 bot.command('nightwave', (ctx) => api.getNightWaveActs((msg) => { return ctx.replyWithMarkdown(msg)})).catch((err) => {console.log(err)})
 bot.command('time', (ctx) => api.getTime((msg) => { return ctx.reply(msg)})).catch((err) => {console.log(err)}) // simple message return
 bot.command('sortie', (ctx) => api.getSortie((msg) => { return ctx.reply(msg)})).catch((err) => {console.log(err)})
-bot.command('baro', (ctx) => callBaro(ctx))
+bot.command('baro', (ctx) => adminOnlyCall(ctx, api.getBaro))
 bot.command('alerts', (ctx) => api.getAlerts((msg) => { return ctx.reply(msg)})).catch((err) => {console.log(err)})
 bot.command('invasions', (ctx) => api.getInvasion((msg) => { return ctx.reply(msg)})).catch((err) => {console.log(err)})
 bot.command('acolytes', (ctx) => api.getAcolytes((msg) => { return ctx.reply(msg)})).catch((err) => {console.log(err)})
+bot.command('fissures', (ctx) => adminOnlyCall(ctx, () => api.getFissures(false, (msg) => { return ctx.reply(msg)})).catch((err) => {console.log(err)}))
+bot.command('stormfissures', (ctx) => adminOnlyCall(ctx, () => api.getFissures(true, (msg) => { return ctx.reply(msg)})).catch((err) => {console.log(err)}))
 
 bot.startPolling()
